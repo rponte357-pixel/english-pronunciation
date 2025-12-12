@@ -242,7 +242,6 @@
             position: relative; 
         }
         
-        /* 💡 ESTILOS DEL TOOLTIP (IDEA 1) */
         .verb-item .example-text {
             visibility: hidden;
             width: 200px;
@@ -278,8 +277,6 @@
             border-style: solid;
             border-color: #333 transparent transparent transparent;
         }
-        /* --------------------------- */
-
 
         .verb-item:hover {
             background: #667eea;
@@ -400,7 +397,7 @@
             75% { transform: translateX(10px); }
         }
 
-        /* 🧩 ESTILOS DRAG & DROP (IDEA 3) */
+        /* 🧩 ESTILOS DRAG & DROP */
         .drag-option {
             padding: 15px 25px;
             background: #764ba2; /* Morado */
@@ -410,7 +407,7 @@
             font-size: 1.2em;
             font-weight: bold;
             transition: transform 0.2s, opacity 0.2s;
-            user-select: none; /* Evita seleccionar el texto al arrastrar */
+            user-select: none;
         }
 
         .drag-option:hover {
@@ -430,8 +427,7 @@
             color: #dc3545;
             animation: shake 0.5s;
         }
-        /* ---------------------------------- */
-
+        
         @media (max-width: 768px) {
             .header h1 { font-size: 1.8em; }
             .stats-bar { flex-direction: column; }
@@ -564,7 +560,7 @@
                 <div class="quiz-score" id="currentScore">Puntuación: 0/0</div>
                 
                 <div id="dragDropChallenge" class="hidden" style="margin-top: 30px; padding: 20px; border: 1px solid #667eea; border-radius: 10px; background: #e7f5ff;">
-                    <h3 style="color: #667eea; text-align: center; margin-bottom: 20px;">🧩 Desafío: Arrastra la Pronunciación</h3>
+                    <h3 style="color: #667eea; text-align: center; margin-bottom: 20px;">🧩 Desafío: Completa la Frase</h3>
                     
                     <div id="sentenceDisplay" style="font-size: 1.4em; text-align: center; margin-bottom: 25px;">
                         </div>
@@ -574,7 +570,7 @@
                             ondragover="allowDrop(event)" 
                             ondrop="drop(event)" 
                             style="display: inline-block; padding: 15px 30px; border: 3px dashed #667eea; background: white; border-radius: 10px; font-size: 1.2em; min-width: 180px; color: #667eea; font-weight: bold;">
-                            Arrastra el sonido aquí
+                            Arrastra o toca aquí
                         </div>
                     </div>
                     
@@ -597,7 +593,6 @@
     </div>
 
     <script>
-        // 🌟 ESTRUCTURA DE DATOS COMPLETA SIN ASTERISCOS 🌟
         const verbData = {
             id: [
                 { verb: 'Accepted', example: 'The team accepted the challenge happily.' },
@@ -726,7 +721,6 @@
                 { verb: 'Worried', example: 'I worried about the test results.' }
             ]
         };
-        // ----------------------------------------------------
 
         let practiceMode = false;
         let practicedVerbs = new Set();
@@ -801,13 +795,10 @@
                     if (practicedVerbs.has(item.verb)) verbItem.classList.add('played');
                     verbItem.textContent = item.verb;
                     
-                    // 🌟 TOOLTIP (IDEA 1) 🌟
                     const exampleSpan = document.createElement('span');
                     exampleSpan.className = 'example-text';
-                    // Nota: Se usa <strong> para la palabra "Ejemplo" para mantener el énfasis en el Tooltip
                     exampleSpan.innerHTML = `<strong>Ejemplo:</strong><br>${item.example}`; 
                     verbItem.appendChild(exampleSpan);
-                    // ---------------------
 
                     verbItem.onclick = () => playAudio(item.verb, category);
                     grid.appendChild(verbItem);
@@ -836,7 +827,6 @@
                     audioElement.src = path;
                     await audioElement.play();
                     audioLoaded = true;
-                    // console.log(`✅ ${path}`); 
                     break;
                 } catch (error) {
                     continue;
@@ -844,7 +834,6 @@
             }
 
             if (!audioLoaded) {
-                // console.error(`❌ Audio no encontrado: ${verb}`); 
                 audioTitle.textContent = `❌ Audio no encontrado: ${verb}`;
                 setTimeout(() => audioPlayer.classList.remove('show'), 2000);
             }
@@ -953,7 +942,44 @@
             }
         }
 
-        // 🧩 FUNCIONES DRAG & DROP (IDEA 3)
+        // 🧩 FUNCIONES DRAG & DROP (MEJORADAS PARA MÓVIL)
+        
+        // 1. Función común que procesa la respuesta (sea por Drag o por Click)
+        function finalizeAnswer(soundValue, elementId) {
+            const dropZone = document.getElementById('dropZone');
+            const challengeFeedback = document.getElementById('challengeFeedback');
+            const element = document.getElementById(elementId);
+
+            // Si ya se ha respondido, no permitir más interacciones
+            if(dropZone.classList.contains('correct') || dropZone.classList.contains('incorrect')) return;
+
+            // Ocultar el elemento seleccionado/arrastrado
+            if(element) element.style.visibility = 'hidden';
+
+            dropZone.textContent = soundValue.toUpperCase(); 
+
+            if (soundValue === currentQuizVerb.category) {
+                quizCorrect++; 
+                updateQuizScore();
+                dropZone.classList.add('correct');
+                challengeFeedback.textContent = "¡Éxito! 🎉 El sonido coincide con la regla de la frase.";
+                
+                // Efecto visual extra para confirmar
+                dropZone.style.transform = "scale(1.1)";
+                setTimeout(() => dropZone.style.transform = "scale(1)", 200);
+            } else {
+                dropZone.classList.add('incorrect');
+                challengeFeedback.textContent = `❌ Incorrecto. El sonido correcto era: ${currentQuizVerb.category.toUpperCase()}`;
+            }
+
+            // Desactivar drop
+            dropZone.ondrop = null;
+            
+            document.getElementById('nextQuestionBtn').classList.remove('hidden');
+            document.getElementById('nextQuestionBtn').textContent = "Siguiente ➡️";
+        }
+
+        // 2. Manejador del Drag (Inicio)
         function drag(ev) {
             ev.dataTransfer.setData("text", ev.target.getAttribute('data-sound'));
             ev.dataTransfer.setData("source-id", ev.target.id); 
@@ -963,39 +989,29 @@
             ev.preventDefault();
         }
 
+        // 3. Manejador del Drop (Soltar)
         function drop(ev) {
             ev.preventDefault();
             const draggedSound = ev.dataTransfer.getData("text");
             const draggedElementId = ev.dataTransfer.getData("source-id");
-            const dropZone = document.getElementById('dropZone');
-            const challengeFeedback = document.getElementById('challengeFeedback');
             
-            // Ocultar el elemento arrastrado
-            document.getElementById(draggedElementId).style.visibility = 'hidden';
+            finalizeAnswer(draggedSound, draggedElementId);
+        }
 
-            dropZone.textContent = draggedSound.toUpperCase(); 
-
-            if (draggedSound === currentQuizVerb.category) {
-                quizCorrect++; 
-                updateQuizScore();
-                dropZone.classList.add('correct');
-                challengeFeedback.textContent = "¡Éxito! 🎉 El sonido coincide con la regla de la frase.";
-            } else {
-                dropZone.classList.add('incorrect');
-                challengeFeedback.textContent = `❌ Incorrecto. El sonido correcto era: ${currentQuizVerb.category.toUpperCase()}`;
-            }
-
-            dropZone.ondrop = null;
-            
-            document.getElementById('nextQuestionBtn').classList.remove('hidden');
-            document.getElementById('nextQuestionBtn').textContent = "Siguiente ➡️";
+        // 4. Nueva función para manejar el Clic directo
+        function handleClickOption(ev) {
+            const sound = ev.target.getAttribute('data-sound');
+            const id = ev.target.id;
+            finalizeAnswer(sound, id);
         }
 
         function resetDropZone() {
             const dropZone = document.getElementById('dropZone');
             dropZone.classList.remove('correct', 'incorrect');
-            dropZone.textContent = "Arrastra el sonido aquí";
+            // Texto actualizado para indicar que el clic también funciona
+            dropZone.textContent = "Arrastra o toca aquí"; 
             dropZone.ondrop = drop; 
+            dropZone.style.transform = "scale(1)";
             document.getElementById('challengeFeedback').textContent = "";
         }
 
@@ -1008,14 +1024,12 @@
 
             resetDropZone(); 
 
-            // 2. Obtener la frase de ejemplo y preparar la visualización
-            
-            // Reemplazamos el verbo con un placeholder. Usamos expresión regular para manejar mayúsculas/minúsculas.
+            // Obtener la frase de ejemplo
             const regex = new RegExp(currentQuizVerb.verb, 'i');
-            let sentence = currentQuizVerb.example.replace(regex, " [ PRONUNCIACIÓN AQUÍ ] ");
+            let sentence = currentQuizVerb.example.replace(regex, " [ ... ] "); // Placeholder más corto
             document.getElementById('sentenceDisplay').innerHTML = `Frase: *${sentence}*`;
 
-            // 3. Crear las opciones de arrastrar
+            // Crear las opciones
             const dragOptions = document.getElementById('dragOptions');
             dragOptions.innerHTML = '';
             
@@ -1032,10 +1046,19 @@
                 option.className = 'drag-option';
                 option.textContent = sound.label;
                 option.id = `drag-${index}`; 
+                
+                // Atributos para Drag (PC)
                 option.setAttribute('draggable', true);
                 option.setAttribute('data-sound', sound.value);
                 option.setAttribute('ondragstart', 'drag(event)');
+                
+                // ATRIBUTO PARA CLICK (MÓVIL Y PC) - Soluciona tu problema
+                option.onclick = handleClickOption;
+                
+                // Cursor pointer para indicar que es clicable
+                option.style.cursor = 'pointer'; 
                 option.style.visibility = 'visible'; 
+                
                 dragOptions.appendChild(option);
             });
         }

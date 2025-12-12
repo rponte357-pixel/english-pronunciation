@@ -26,4 +26,13 @@ You can access the web application here:
 ---
 
 ## 📁 Project Structure
-
+english-pronunciation/
+├── index.html
+├── README.md
+└── audio/
+├── id_sound/
+│ └── *.mp3
+├── t_sound/
+│ └── *.mp3
+└── d_sound/
+└── *.mp3

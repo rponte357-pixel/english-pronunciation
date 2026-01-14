@@ -1,1082 +1,2007 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pronunciación del -ed en Inglés</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Pronunciación -ed | Explorador + Misión</title>
+  <style>
+    /* =========================
+       APP SHELL (nuevo)
+       ========================= */
+    :root{
+      --app-bg: #0f1115;
+      --app-card: rgba(255,255,255,0.06);
+      --app-text: #ffffff;
+      --app-muted: rgba(255,255,255,0.65);
+      --app-accent: #ffa502;
+      --app-border: rgba(255,255,255,0.12);
+    }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: #333;
-            padding: 20px;
-            min-height: 100vh;
-        }
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    body{
+      scroll-behavior: smooth;
 
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            overflow: hidden;
-        }
+      margin:0;
+      background: var(--app-bg);
+      color: var(--app-text);
+      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      min-height:100vh;
+    }
 
-        .header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 40px;
-            text-align: center;
-        }
+    .app-topbar{
+      position: sticky;
+      top:0;
+      z-index: 2500;
+      display:flex;
+      gap:10px;
+      align-items:center;
+      justify-content: space-between;
+      padding: 14px 16px;
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--app-border);
+    }
 
-        .header h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
-        }
+    .app-title{
+      display:flex;
+      flex-direction: column;
+      gap:2px;
+      line-height: 1.1;
+    }
+    .app-title strong{ font-size: 1.05rem; }
+    .app-title span{ font-size: 0.82rem; color: var(--app-muted); }
 
-        .header p {
-            font-size: 1.2em;
-            opacity: 0.9;
-        }
+    .app-tabs{
+      display:flex;
+      gap:8px;
+      align-items:center;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+    .app-tab{
+      border: 1px solid var(--app-border);
+      background: transparent;
+      color: var(--app-text);
+      padding: 10px 12px;
+      border-radius: 12px;
+      cursor:pointer;
+      font-weight: 700;
+      font-size: 0.95rem;
+      transition: transform .15s, background .15s, border-color .15s;
+      white-space: nowrap;
+    }
+    .app-tab:hover{ transform: translateY(-1px); background: rgba(255,255,255,0.06); }
+    .app-tab.active{
+      border-color: rgba(255,165,2,0.65);
+      background: rgba(255,165,2,0.16);
+      color: #fff;
+    }
 
-        .stats-bar {
-            display: flex;
-            justify-content: space-around;
-            padding: 20px;
-            background: #f8f9fa;
-            border-bottom: 2px solid #e9ecef;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
+    .app-view{ display:none; }
+    .app-view.active{ display:block; }
 
-        .stat-item {
-            text-align: center;
-            padding: 15px;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            min-width: 150px;
-            flex: 1;
-        }
+    /* =========================
+       VIEW: EXPLORADOR (tu 1ª página)
+       NAMESPACE: .explorer
+       ========================= */
+    .explorer{
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: #333;
+      padding: 20px;
+      min-height: calc(100vh - 62px); /* topbar */
+    }
+    .explorer * { margin: 0; padding: 0; }
 
-        .stat-number {
-            font-size: 2em;
-            font-weight: bold;
-            color: #667eea;
-        }
+    .explorer .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      overflow: hidden;
+    }
 
-        .stat-label {
-            font-size: 0.9em;
-            color: #6c757d;
-            margin-top: 5px;
-        }
+    .explorer .header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 40px;
+      text-align: center;
+    }
 
-        .controls {
-            padding: 30px 40px;
-            background: white;
-            display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
-            align-items: center;
-            border-bottom: 2px solid #e9ecef;
-        }
+    .explorer .header h1 {
+      font-size: 2.5em;
+      margin-bottom: 10px;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+    }
 
-        .search-box {
-            flex: 1;
-            min-width: 250px;
-        }
+    .explorer .header p {
+      font-size: 1.2em;
+      opacity: 0.9;
+    }
 
-        .search-box input {
-            width: 100%;
-            padding: 15px 20px;
-            border: 2px solid #e9ecef;
-            border-radius: 10px;
-            font-size: 1em;
-            transition: all 0.3s;
-        }
+    .explorer .stats-bar {
+      display: flex;
+      justify-content: space-around;
+      padding: 20px;
+      background: #f8f9fa;
+      border-bottom: 2px solid #e9ecef;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
 
-        .search-box input:focus {
-            outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-        }
+    .explorer .stat-item {
+      text-align: center;
+      padding: 15px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      min-width: 150px;
+      flex: 1;
+    }
 
-        .filter-buttons {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
+    .explorer .stat-number {
+      font-size: 2em;
+      font-weight: bold;
+      color: #667eea;
+    }
 
-        .filter-btn {
-            padding: 12px 24px;
-            border: 2px solid #e9ecef;
-            background: white;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 1em;
-            font-weight: 600;
-            transition: all 0.3s;
-        }
+    .explorer .stat-label {
+      font-size: 0.9em;
+      color: #6c757d;
+      margin-top: 5px;
+    }
 
-        .filter-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        }
+    .explorer .controls {
+      padding: 30px 40px;
+      background: white;
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      align-items: center;
+      border-bottom: 2px solid #e9ecef;
+    }
 
-        .filter-btn.active {
-            background: #667eea;
-            color: white;
-            border-color: #667eea;
-        }
+    .explorer .search-box {
+      flex: 1;
+      min-width: 250px;
+    }
 
-        .mode-toggle {
-            padding: 12px 24px;
-            background: #28a745;
-            color: white;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 1em;
-            font-weight: 600;
-            transition: all 0.3s;
-        }
+    .explorer .search-box input {
+      width: 100%;
+      padding: 15px 20px;
+      border: 2px solid #e9ecef;
+      border-radius: 10px;
+      font-size: 1em;
+      transition: all 0.3s;
+    }
 
-        .mode-toggle:hover {
-            background: #218838;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        }
+    .explorer .search-box input:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
 
-        .rules-section {
-            padding: 40px;
-            background: #f8f9fa;
-        }
+    .explorer .filter-buttons {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
 
-        .rules-section h2 {
-            color: #667eea;
-            margin-bottom: 20px;
-            font-size: 1.8em;
-        }
+    .explorer .filter-btn {
+      padding: 12px 24px;
+      border: 2px solid #e9ecef;
+      background: white;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 1em;
+      font-weight: 600;
+      transition: all 0.3s;
+    }
 
-        .summary-table {
-            width: 100%;
-            border-collapse: collapse;
-            background: white;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
+    .explorer .filter-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
 
-        .summary-table th, .summary-table td {
-            padding: 15px;
-            text-align: left;
-            border-bottom: 1px solid #e9ecef;
-        }
+    .explorer .filter-btn.active {
+      background: #667eea;
+      color: white;
+      border-color: #667eea;
+    }
 
-        .summary-table th {
-            background: #667eea;
-            color: white;
-            font-weight: 600;
-        }
+    .explorer .mode-toggle {
+      padding: 12px 24px;
+      background: #28a745;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 1em;
+      font-weight: 600;
+      transition: all 0.3s;
+    }
 
-        .summary-table tr:hover {
-            background: #f8f9fa;
-        }
+    .explorer .mode-toggle:hover {
+      background: #218838;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
 
-        .verb-lists-section {
-            padding: 40px;
-        }
+    .explorer .rules-section {
+      padding: 40px;
+      background: #f8f9fa;
+    }
 
-        .verb-list-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 30px;
-        }
+    .explorer .rules-section h2 {
+      color: #667eea;
+      margin-bottom: 20px;
+      font-size: 1.8em;
+    }
 
-        .verb-list {
-            background: white;
-            border-radius: 15px;
-            padding: 25px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
+    .explorer .summary-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
 
-        .verb-list:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
-        }
+    .explorer .summary-table th, .explorer .summary-table td {
+      padding: 15px;
+      text-align: left;
+      border-bottom: 1px solid #e9ecef;
+    }
 
-        .verb-list h3 {
-            color: #667eea;
-            margin-bottom: 20px;
-            font-size: 1.5em;
-            padding-bottom: 10px;
-            border-bottom: 3px solid #667eea;
-        }
+    .explorer .summary-table th {
+      background: #667eea;
+      color: white;
+      font-weight: 600;
+    }
 
-        .verb-list.id-list h3 { color: #dc3545; border-bottom-color: #dc3545; }
-        .verb-list.t-list h3 { color: #ffc107; border-bottom-color: #ffc107; }
-        .verb-list.d-list h3 { color: #28a745; border-bottom-color: #28a745; }
+    .explorer .summary-table tr:hover { background: #f8f9fa; }
 
-        .verb-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-            gap: 10px;
-        }
+    .explorer .verb-lists-section { padding: 40px; }
 
-        .verb-item {
-            padding: 12px;
-            background: #f8f9fa;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s;
-            text-align: center;
-            border: 2px solid transparent;
-            position: relative; 
-        }
-        
-        .verb-item .example-text {
-            visibility: hidden;
-            width: 200px;
-            background-color: #333;
-            color: white;
-            text-align: center;
-            border-radius: 6px;
-            padding: 10px;
-            position: absolute;
-            z-index: 1001;
-            bottom: 100%;
-            left: 50%;
-            margin-left: -100px; 
-            opacity: 0;
-            transition: opacity 0.3s, visibility 0.3s;
-            font-size: 0.9em;
-            line-height: 1.4;
-            white-space: normal;
-        }
-        
-        .verb-item:hover .example-text {
-            visibility: visible;
-            opacity: 1;
-        }
-        
-        .verb-item .example-text::after {
-            content: "";
-            position: absolute;
-            top: 100%;
-            left: 50%;
-            margin-left: -5px;
-            border-width: 5px;
-            border-style: solid;
-            border-color: #333 transparent transparent transparent;
-        }
+    .explorer .verb-list-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 30px;
+    }
 
-        .verb-item:hover {
-            background: #667eea;
-            color: white;
-            transform: translateY(-3px);
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
-        }
+    .explorer .verb-list {
+      background: white;
+      border-radius: 15px;
+      padding: 25px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
 
-        .verb-item.played {
-            background: #e7f5ff;
-            border-color: #667eea;
-        }
+    .explorer .verb-list:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+    }
 
-        .verb-item.played::after {
-            content: '✓';
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            background: #28a745;
-            color: white;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            font-size: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+    .explorer .verb-list h3 {
+      color: #667eea;
+      margin-bottom: 20px;
+      font-size: 1.5em;
+      padding-bottom: 10px;
+      border-bottom: 3px solid #667eea;
+    }
 
-        .verb-item:active {
-            transform: scale(0.95);
-        }
+    .explorer .verb-list.id-list h3 { color: #dc3545; border-bottom-color: #dc3545; }
+    .explorer .verb-list.t-list h3 { color: #ffc107; border-bottom-color: #ffc107; }
+    .explorer .verb-list.d-list h3 { color: #28a745; border-bottom-color: #28a745; }
 
-        .practice-mode {
-            display: none;
-            padding: 40px;
-            background: #f8f9fa;
-        }
+    .explorer .verb-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 10px;
+    }
 
-        .practice-mode.active {
-            display: block;
-        }
+    .explorer .verb-item {
+      padding: 12px;
+      background: #f8f9fa;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-align: center;
+      border: 2px solid transparent;
+      position: relative;
+      user-select: none;
+    }
 
-        .quiz-container {
-            max-width: 700px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 15px;
-            padding: 40px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
+    .explorer .verb-item .example-text {
+      visibility: hidden;
+      width: 220px;
+      background-color: #333;
+      color: white;
+      text-align: center;
+      border-radius: 6px;
+      padding: 10px;
+      position: absolute;
+      z-index: 1001;
+      bottom: 100%;
+      left: 50%;
+      margin-left: -110px;
+      opacity: 0;
+      transition: opacity 0.3s, visibility 0.3s;
+      font-size: 0.9em;
+      line-height: 1.4;
+      white-space: normal;
+    }
 
-        .quiz-question {
-            font-size: 1.5em;
-            margin-bottom: 30px;
-            text-align: center;
-            color: #333;
-        }
+    .explorer .verb-item:hover .example-text { visibility: visible; opacity: 1; }
 
-        .quiz-verb {
-            font-size: 2.5em;
-            font-weight: bold;
-            color: #667eea;
-            margin: 30px 0;
-            text-align: center;
-        }
+    .explorer .verb-item .example-text::after {
+      content: "";
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      margin-left: -5px;
+      border-width: 5px;
+      border-style: solid;
+      border-color: #333 transparent transparent transparent;
+    }
 
-        .quiz-options {
-            display: grid;
-            gap: 15px;
-            margin-top: 30px;
-        }
+    .explorer .verb-item:hover {
+      background: #667eea;
+      color: white;
+      transform: translateY(-3px);
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+    }
 
-        .quiz-option {
-            padding: 20px;
-            background: #f8f9fa;
-            border: 2px solid #e9ecef;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-size: 1.1em;
-            text-align: center;
-        }
+    .explorer .verb-item.played {
+      background: #e7f5ff;
+      border-color: #667eea;
+    }
 
-        .quiz-option:hover {
-            background: #e9ecef;
-            transform: translateX(5px);
-        }
+    .explorer .verb-item.played::after {
+      content: '✓';
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      background: #28a745;
+      color: white;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
-        .quiz-option.correct {
-            background: #d4edda;
-            border-color: #28a745;
-            animation: pulse 0.5s;
-        }
+    .explorer .verb-item:active { transform: scale(0.95); }
 
-        .quiz-option.incorrect {
-            background: #f8d7da;
-            border-color: #dc3545;
-            animation: shake 0.5s;
-        }
+    .explorer .practice-mode { display: none; padding: 40px; background: #f8f9fa; }
+    .explorer .practice-mode.active { display: block; }
 
-        .quiz-score {
-            text-align: center;
-            margin-top: 30px;
-            font-size: 1.3em;
-            color: #667eea;
-            font-weight: 600;
-        }
+    .explorer .quiz-container {
+      max-width: 700px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 15px;
+      padding: 40px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
 
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
+    .explorer .quiz-question {
+      font-size: 1.5em;
+      margin-bottom: 30px;
+      text-align: center;
+      color: #333;
+    }
 
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-10px); }
-            75% { transform: translateX(10px); }
-        }
+    .explorer .quiz-verb {
+      font-size: 2.5em;
+      font-weight: bold;
+      color: #667eea;
+      margin: 30px 0;
+      text-align: center;
+    }
 
-        /* 🧩 ESTILOS DRAG & DROP */
-        .drag-option {
-            padding: 15px 25px;
-            background: #764ba2; /* Morado */
-            color: white;
-            border-radius: 8px;
-            cursor: grab;
-            font-size: 1.2em;
-            font-weight: bold;
-            transition: transform 0.2s, opacity 0.2s;
-            user-select: none;
-        }
+    .explorer .quiz-options {
+      display: grid;
+      gap: 15px;
+      margin-top: 30px;
+    }
 
-        .drag-option:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-        }
+    .explorer .quiz-option {
+      padding: 20px;
+      background: #f8f9fa;
+      border: 2px solid #e9ecef;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-size: 1.1em;
+      text-align: center;
+      user-select: none;
+    }
 
-        #dropZone.correct {
-            background-color: #d4edda;
-            border-color: #28a745;
-            color: #28a745;
-        }
+    .explorer .quiz-option:hover {
+      background: #e9ecef;
+      transform: translateX(5px);
+    }
 
-        #dropZone.incorrect {
-            background-color: #f8d7da;
-            border-color: #dc3545;
-            color: #dc3545;
-            animation: shake 0.5s;
-        }
-        
-        @media (max-width: 768px) {
-            .header h1 { font-size: 1.8em; }
-            .stats-bar { flex-direction: column; }
-            .controls { flex-direction: column; }
-            .verb-list-container { grid-template-columns: 1fr; }
-        }
+    .explorer .quiz-option.correct { background: #d4edda; border-color: #28a745; animation: explorer-pulse 0.5s; }
+    .explorer .quiz-option.incorrect { background: #f8d7da; border-color: #dc3545; animation: explorer-shake 0.5s; }
 
-        .hidden {
-            display: none !important;
-        }
+    .explorer .quiz-score {
+      text-align: center;
+      margin-top: 30px;
+      font-size: 1.3em;
+      color: #667eea;
+      font-weight: 600;
+    }
 
-        .audio-player-float {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: white;
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
-            z-index: 1000;
-            display: none;
-            min-width: 300px;
-        }
+    @keyframes explorer-pulse { 0%,100%{ transform:scale(1);} 50%{ transform:scale(1.05);} }
+    @keyframes explorer-shake { 0%,100%{ transform:translateX(0);} 25%{ transform:translateX(-10px);} 75%{ transform:translateX(10px);} }
 
-        .audio-player-float.show {
-            display: block;
-            animation: slideUp 0.3s;
-        }
+    .explorer .drag-option{
+      padding: 15px 25px;
+      background: #764ba2;
+      color: white;
+      border-radius: 8px;
+      cursor: grab;
+      font-size: 1.2em;
+      font-weight: bold;
+      transition: transform 0.2s, opacity 0.2s;
+      user-select: none;
+    }
+    .explorer .drag-option:hover{
+      transform: translateY(-3px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+    .explorer #explorer-dropZone.correct{
+      background-color: #d4edda;
+      border-color: #28a745;
+      color: #28a745;
+    }
+    .explorer #explorer-dropZone.incorrect{
+      background-color: #f8d7da;
+      border-color: #dc3545;
+      color: #dc3545;
+      animation: explorer-shake 0.5s;
+    }
 
-        .audio-player-title {
-            font-size: 1.2em;
-            font-weight: bold;
-            color: #667eea;
-            margin-bottom: 10px;
-        }
+    .explorer .hidden { display:none !important; }
 
-        @keyframes slideUp {
-            from {
-                transform: translateY(100px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-    </style>
+    .explorer .audio-player-float{
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: white;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+      z-index: 2200; /* por encima del contenido; por debajo del feedback del juego */
+      display: none;
+      min-width: 300px;
+    }
+    .explorer .audio-player-float.show{ display:block; animation: explorer-slideUp .3s; }
+    .explorer .audio-player-title{
+      font-size: 1.2em;
+      font-weight: bold;
+      color: #667eea;
+      margin-bottom: 10px;
+    }
+    @keyframes explorer-slideUp{ from{ transform: translateY(100px); opacity:0;} to{ transform: translateY(0); opacity:1;} }
+
+    @media (max-width: 768px) {
+      .explorer .header h1 { font-size: 1.8em; }
+      .explorer .stats-bar { flex-direction: column; }
+      .explorer .controls { flex-direction: column; }
+      .explorer .verb-list-container { grid-template-columns: 1fr; }
+      .explorer .audio-player-float{ left: 10px; right: 10px; min-width: unset; }
+    }
+
+    /* =========================
+       VIEW: MISIÓN (tu 2ª página)
+       NAMESPACE: .mission
+       ========================= */
+    .mission{
+      min-height: calc(100vh - 62px);
+      background-color: #1e2124;
+      color: #ffffff;
+    }
+    .mission :root{}
+    .mission .content{
+      flex: 1;
+      padding: 20px;
+      padding-bottom: 90px;
+      overflow-y: auto;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    .mission .hidden{ display:none !important; }
+
+    .mission .rule-card{
+      background: #2f3136;
+      border-radius: 15px;
+      padding: 20px;
+      margin-bottom: 20px;
+      border-left: 5px solid white;
+    }
+    .mission .rule-card.id { border-color: #ff4757; }
+    .mission .rule-card.t { border-color: #ffa502; }
+    .mission .rule-card.d { border-color: #2ed573; }
+    .mission .rule-card h2{ margin-top: 0; font-size: 1.4em; }
+    .mission .rule-card h3{ color:#bbb; font-size: 1em; }
+
+    .mission .game-header{ text-align:center; margin-bottom: 30px; }
+    .mission .verb-display{
+      background: #2f3136;
+      height: 200px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      border-radius: 20px;
+      font-size: 3em;
+      font-weight: bold;
+      margin-bottom: 30px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+      border: 2px solid #444;
+    }
+
+    .mission .btn-grid{ display:grid; grid-template-columns: 1fr; gap: 15px; }
+    .mission .choice-btn{
+      padding: 20px;
+      border:none;
+      border-radius: 12px;
+      color:white;
+      font-size: 1.2em;
+      font-weight:bold;
+      display:flex;
+      justify-content: space-between;
+      align-items:center;
+      cursor:pointer;
+      user-select:none;
+    }
+    .mission .btn-id{ background:#ff4757; }
+    .mission .btn-t{ background:#ffa502; }
+    .mission .btn-d{ background:#2ed573; }
+
+    .mission .feedback{
+      position: fixed;
+      top: 40%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 8em;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 2600;
+    }
+    @keyframes mission-pop{
+      0% { transform: translate(-50%, -50%) scale(0.5); opacity: 0; }
+      50% { opacity: 1; }
+      100% { transform: translate(-50%, -50%) scale(1.2); opacity: 0; }
+    }
+    .mission .animate-pop{ animation: mission-pop 0.5s ease-out; }
+
+    .mission .stats-bar{
+      display:flex;
+      justify-content: space-around;
+      margin-bottom: 20px;
+      background: rgba(255,255,255,0.05);
+      padding: 10px;
+      border-radius: 10px;
+    }
+
+    /* Navegación inferior SOLO para Misión */
+    .mission .nav{
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      display:flex;
+      background: #000;
+      padding: 10px 0;
+      z-index: 2400;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+    .mission .nav-item{
+      flex:1;
+      text-align:center;
+      color:#8e9297;
+      font-size: 0.8em;
+      cursor:pointer;
+      user-select:none;
+    }
+    .mission .nav-item.active{ color:#ffa502; }
+  
+    .explorer .rule-row{
+      cursor: pointer;
+      transition: transform .15s, background .15s;
+    }
+    .explorer .rule-row:hover{
+      background: #eef2ff;
+      transform: translateX(4px);
+    }
+    .explorer .rule-row:focus{
+      outline: 3px solid rgba(102,126,234,0.35);
+      outline-offset: 2px;
+    }
+
+  
+    .explorer .rule-accordion { display: none; }
+    .explorer .rule-accordion.open { display: table-row; }
+    .explorer .rule-accordion-inner{
+      background: #f8f9fa;
+      border: 2px solid #e9ecef;
+      border-radius: 12px;
+      padding: 16px 18px;
+    }
+    .explorer .rule-accordion-inner h4{
+      margin: 0 0 10px 0;
+      color: #667eea;
+    }
+    .explorer .sound-chip{
+      display: inline-block;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(102,126,234,0.12);
+      border: 1px solid rgba(102,126,234,0.25);
+      font-weight: 800;
+      letter-spacing: 0.5px;
+    }
+    .explorer .rule-jump{
+      margin-top: 10px;
+    }
+
+  
+    /* FIX: asegurar acordeón oculto por defecto */
+    .explorer table .rule-accordion{ display: none !important; }
+    .explorer table .rule-accordion.open{ display: table-row !important; }
+
+  
+    /* Adjetivos: reutilizan el mismo estilo que los verbos */
+    #explorer-adjSection .verb-item{
+      cursor: default;
+    }
+
+  </style>
 </head>
 <body>
 
+  <!-- APP TOPBAR -->
+  <div class="app-topbar">
+    <div class="app-title">
+      <strong>Pronunciación del -ed</strong>
+      <span>Explorador (audio + quiz) · Misión (juego móvil)</span>
+    </div>
+    <div class="app-tabs">
+      <button class="app-tab active" id="tab-explorer" onclick="appShow('explorer')">🧭 Explorador</button>
+      <button class="app-tab" id="tab-mission" onclick="appShow('mission')">🎮 Misión</button>
+    </div>
+  </div>
+
+  <!-- =========================
+       VIEW 1: EXPLORADOR
+       ========================= -->
+  <section class="app-view active explorer" id="view-explorer">
     <div class="container">
-        <div class="header">
-            <h1>🎯 Pronunciación del -ed en Inglés</h1>
-            <p>Pasa el ratón sobre un verbo para ver el ejemplo y haz clic para escuchar</p>
+      <div class="header">
+        <h1>🎯 Pronunciación del -ed en Inglés</h1>
+        <p>Pasa el ratón sobre un verbo para ver el ejemplo y haz clic para escuchar</p>
+      </div>
+
+      <div class="stats-bar">
+        <div class="stat-item">
+          <div class="stat-number" id="explorer-totalVerbs">120</div>
+          <div class="stat-label">Verbos Totales</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number" id="explorer-practicedVerbs">0</div>
+          <div class="stat-label">Escuchados</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number" id="explorer-quizScore">0/0</div>
+          <div class="stat-label">Quiz Score</div>
+        </div>
+      </div>
+
+      <div class="controls">
+        <div class="search-box">
+          <input type="text" id="explorer-searchInput" placeholder="🔍 Buscar verbo...">
+        </div>
+        <div class="filter-buttons">
+          <button class="filter-btn active" data-filter="all" data-scope="explorer">Todos</button>
+          <button class="filter-btn" data-filter="id" data-scope="explorer">🔴 /ɪd/</button>
+          <button class="filter-btn" data-filter="t" data-scope="explorer">🟡 /t/</button>
+          <button class="filter-btn" data-filter="d" data-scope="explorer">🟢 /d/</button>
+        </div>
+        <button class="mode-toggle" onclick="explorerTogglePracticeMode()">🎮 Modo Práctica</button>
+      </div>
+
+      
+      
+      <div class="rules-section" id="explorer-rulesSection">
+        <h2>📚 Reglas de Pronunciación</h2>
+
+        <p style="color:#6c757d; margin: 0 0 18px 0;">
+          Pulsa una regla para ver su explicación (acordeón).
+        </p>
+
+        <table class="summary-table">
+          <thead>
+            <tr>
+              <th>Sonido</th>
+              <th>Regla</th>
+              <th>Ejemplo</th>
+              <th>Característica</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- /ɪd/ -->
+            <tr class="rule-row" data-target="acc-id" tabindex="0" role="button" aria-expanded="false">
+              <td><strong>/ɪd/</strong></td>
+              <td>Termina en <strong>/t/</strong> o <strong>/d/</strong></td>
+              <td>wait → wait<strong>ed</strong></td>
+              <td>🔴 Sílaba EXTRA</td>
+            </tr>
+            <tr class="rule-accordion" id="acc-id" aria-hidden="true">
+              <td colspan="4">
+                <div class="rule-accordion-inner">
+                  <div class="rule-accordion-content" data-tpl="tpl-rule-id"></div>
+                </div>
+              </td>
+            </tr>
+
+            <!-- /t/ -->
+            <tr class="rule-row" data-target="acc-t" tabindex="0" role="button" aria-expanded="false">
+              <td><strong>/t/</strong></td>
+              <td>Termina en sonido <strong>sordo</strong></td>
+              <td>look → look<strong>ed</strong></td>
+              <td>🟡 Sordo + Sordo</td>
+            </tr>
+            <tr class="rule-accordion" id="acc-t" aria-hidden="true">
+              <td colspan="4">
+                <div class="rule-accordion-inner">
+                  <div class="rule-accordion-content" data-tpl="tpl-rule-t"></div>
+                </div>
+              </td>
+            </tr>
+
+            <!-- /d/ -->
+            <tr class="rule-row" data-target="acc-d" tabindex="0" role="button" aria-expanded="false">
+              <td><strong>/d/</strong></td>
+              <td>Termina en sonido <strong>sonoro</strong> o vocal</td>
+              <td>clean → clean<strong>ed</strong></td>
+              <td>🟢 Sonoro + Sonoro</td>
+            </tr>
+            <tr class="rule-accordion" id="acc-d" aria-hidden="true">
+              <td colspan="4">
+                <div class="rule-accordion-inner">
+                  <div class="rule-accordion-content" data-tpl="tpl-rule-d"></div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- Templates de explicación completa (NO visibles por defecto) -->
+        <template id="tpl-rule-id">
+          <h4>🔴 /ɪd/ → sílaba extra</h4>
+          <p><b>Regla:</b> Termina en sonido <b>/t/</b> o <b>/d/</b>, por eso se añade una sílaba extra.</p>
+          <p><b>Ejemplo:</b> <code>wanted</code> · <b>IPA:</b> <code>/ˈwɒn.tɪd/</code> · <b>Suena:</b> <span class="sound-chip">WON–tid</span></p>
+          <p style="margin: 10px 0 6px 0;"><b>Sensación auditiva:</b></p>
+          <ul>
+            <li>Dos golpes claros</li>
+            <li>Se oye una vocal corta <code>/ɪ/</code> antes de la <b>d</b></li>
+            <li>Parece casi una palabra nueva</li>
+          </ul>
+          <p><b>Audio ideal diría:</b> “wanted” → <b>won-tid</b></p>
+        </template>
+
+        <template id="tpl-rule-t">
+          <h4>🟡 /t/ → sonido sordo</h4>
+          <p><b>Regla:</b> Termina en sonido <b>sordo</b> (p, k, f, s, sh, ch, x…), así que el -ed se pronuncia <b>/t/</b>.</p>
+          <p><b>Ejemplo:</b> <code>worked</code> · <b>IPA:</b> <code>/wɜːkt/</code> · <b>Suena:</b> <span class="sound-chip">WORKT</span></p>
+          <p style="margin: 10px 0 6px 0;"><b>Sensación auditiva:</b></p>
+          <ul>
+            <li>No hay vocal extra</li>
+            <li>Final seco, cortado</li>
+            <li>La <b>t</b> se “pega” al verbo</li>
+          </ul>
+          <p><b>Audio ideal diría:</b> “worked” → <b>workt</b></p>
+        </template>
+
+        <template id="tpl-rule-d">
+          <h4>🟢 /d/ → sonido sonoro</h4>
+          <p><b>Regla:</b> Termina en sonido <b>sonoro</b> (vocal, l, n, r, b, g, v, z, m…), así que el -ed se pronuncia <b>/d/</b>.</p>
+          <p><b>Ejemplo:</b> <code>played</code> · <b>IPA:</b> <code>/pleɪd/</code> · <b>Suena:</b> <span class="sound-chip">PLEID</span></p>
+          <p style="margin: 10px 0 6px 0;"><b>Sensación auditiva:</b></p>
+          <ul>
+            <li>Una sola sílaba</li>
+            <li>La <b>d</b> final es suave</li>
+            <li>La voz sigue vibrando</li>
+          </ul>
+          <p><b>Audio ideal diría:</b> “played” → <b>pleid</b></p>
+        </template>
+      </div>
+
+
+<div class="verb-lists-section" id="explorer-verbListsSection">
+        <div class="verb-list-container" id="explorer-verbListContainer"></div>
+      </div>
+
+      
+      <div class="filter-buttons">
+            <button class="filter-btn active" data-filter="all" data-scope="adj">Todos</button>
+            <button class="filter-btn" data-filter="id" data-scope="adj">🔴 /ɪd/</button>
+            <button class="filter-btn" data-filter="t" data-scope="adj">🟡 /t/</button>
+            <button class="filter-btn" data-filter="d" data-scope="adj">🟢 /d/</button>
+          </div>
         </div>
 
-        <div class="stats-bar">
-            <div class="stat-item">
-                <div class="stat-number" id="totalVerbs">120</div>
-                <div class="stat-label">Verbos Totales</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number" id="practicedVerbs">0</div>
-                <div class="stat-label">Escuchados</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number" id="quizScore">0/0</div>
-                <div class="stat-label">Quiz Score</div>
-            </div>
+        
+      </div>
+
+      <div class="filter-buttons">
+            <button class="filter-btn active" data-filter="all" data-scope="adj">Todos</button>
+            <button class="filter-btn" data-filter="id" data-scope="adj">🔴 /ɪd/</button>
+            <button class="filter-btn" data-filter="t" data-scope="adj">🟡 /t/</button>
+            <button class="filter-btn" data-filter="d" data-scope="adj">🟢 /d/</button>
+          </div>
         </div>
+
+        
+      </div>
+
+      <div class="verb-lists-section" id="explorer-adjSection">
+        <h2 style="color:#667eea; margin-bottom: 10px;">🧠 Adjetivos en -ed (C1)</h2>
+        <p style="color:#6c757d; margin-bottom: 20px;">
+          30 adjetivos por regla, con buscador y filtros. Pasa el ratón para ver ejemplos.
+        </p>
 
         <div class="controls">
-            <div class="search-box">
-                <input type="text" id="searchInput" placeholder="🔍 Buscar verbo...">
-            </div>
-            <div class="filter-buttons">
-                <button class="filter-btn active" data-filter="all">Todos</button>
-                <button class="filter-btn" data-filter="id">🔴 /ɪd/</button>
-                <button class="filter-btn" data-filter="t">🟡 /t/</button>
-                <button class="filter-btn" data-filter="d">🟢 /d/</button>
-            </div>
-            <button class="mode-toggle" onclick="togglePracticeMode()">🎮 Modo Práctica</button>
+          <div class="search-box">
+            <input type="text" id="explorer-adjSearch" placeholder="🔍 Buscar adjetivo...">
+          </div>
+          <div class="filter-buttons">
+            <button class="filter-btn active" data-filter="all" data-scope="adj">Todos</button>
+            <button class="filter-btn" data-filter="id" data-scope="adj">🔴 /ɪd/</button>
+            <button class="filter-btn" data-filter="t" data-scope="adj">🟡 /t/</button>
+            <button class="filter-btn" data-filter="d" data-scope="adj">🟢 /d/</button>
+          </div>
         </div>
 
-        <div class="rules-section" id="rulesSection">
-            <h2>📚 Reglas de Pronunciación</h2>
-            <table class="summary-table">
-                <thead>
-                    <tr>
-                        <th>Sonido</th>
-                        <th>Regla</th>
-                        <th>Ejemplo</th>
-                        <th>Característica</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>/ɪd/</strong></td>
-                        <td>Termina en <strong>/t/</strong> o <strong>/d/</strong></td>
-                        <td>Wait → Wait<strong>ed</strong></td>
-                        <td>🔴 Sílaba EXTRA</td>
-                    </tr>
-                    <tr>
-                        <td><strong>/t/</strong></td>
-                        <td>Termina en sonido <strong>sordo</strong></td>
-                        <td>Look → Look<strong>ed</strong></td>
-                        <td>🟡 Sordo + Sordo</td>
-                    </tr>
-                    <tr>
-                    <tr>
-                        <td><strong>/d/</strong></td>
-                        <td>Termina en sonido <strong>sonoro</strong> o vocal</td>
-                        <td>Clean → Clean<strong>ed</strong></td>
-                        <td>🟢 Sonoro + Sonoro</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+        <div class="verb-list-container" id="explorer-adjContainer"></div>
+      </div>
 
-        <div class="verb-lists-section" id="verbListsSection">
-            <div class="verb-list-container" id="verbListContainer"></div>
-        </div>
 
-        <div class="practice-mode" id="practiceMode">
-            <div class="quiz-container">
-                <h2 style="text-align: center; color: #667eea; margin-bottom: 30px;">🎮 Modo Práctica</h2>
-                <div class="quiz-question">¿Cómo se pronuncia el -ed en este verbo?</div>
-                <div class="quiz-verb" id="quizVerb">Loading...</div>
-                <div class="quiz-options" id="quizOptions"></div>
-                <div class="quiz-score" id="currentScore">Puntuación: 0/0</div>
-                
-                <div id="dragDropChallenge" class="hidden" style="margin-top: 30px; padding: 20px; border: 1px solid #667eea; border-radius: 10px; background: #e7f5ff;">
-                    <h3 style="color: #667eea; text-align: center; margin-bottom: 20px;">🧩 Desafío: Completa la Frase</h3>
-                    
-                    <div id="sentenceDisplay" style="font-size: 1.4em; text-align: center; margin-bottom: 25px;">
-                        </div>
-                    
-                    <div style="text-align: center;">
-                        <div id="dropZone" 
-                            ondragover="allowDrop(event)" 
-                            ondrop="drop(event)" 
-                            style="display: inline-block; padding: 15px 30px; border: 3px dashed #667eea; background: white; border-radius: 10px; font-size: 1.2em; min-width: 180px; color: #667eea; font-weight: bold;">
-                            Arrastra o toca aquí
-                        </div>
-                    </div>
-                    
-                    <div id="dragOptions" style="display: flex; justify-content: center; gap: 20px; margin-top: 30px;">
-                        </div>
-                    
-                    <div id="challengeFeedback" style="text-align: center; margin-top: 15px; font-weight: bold;"></div>
-                </div>
-                <div style="text-align: center; margin-top: 30px;">
-                    <button class="mode-toggle" id="nextQuestionBtn" onclick="nextQuestion()">Siguiente ➡️</button>
-                    <button class="mode-toggle" style="background: #dc3545; margin-left: 10px;" onclick="togglePracticeMode()">Volver</button>
-                </div>
+      <div class="practice-mode" id="explorer-practiceMode">
+        <div class="quiz-container">
+          <h2 style="text-align: center; color: #667eea; margin-bottom: 30px;">🎮 Modo Práctica</h2>
+          <div class="quiz-question">¿Cómo se pronuncia el -ed en este verbo?</div>
+          <div class="quiz-verb" id="explorer-quizVerb">Loading...</div>
+          <div class="quiz-options" id="explorer-quizOptions"></div>
+          <div class="quiz-score" id="explorer-currentScore">Puntuación: 0/0</div>
+
+          <div id="explorer-dragDropChallenge" class="hidden" style="margin-top: 30px; padding: 20px; border: 1px solid #667eea; border-radius: 10px; background: #e7f5ff;">
+            <h3 style="color: #667eea; text-align: center; margin-bottom: 20px;">🧩 Desafío: Completa la Frase</h3>
+
+            <div id="explorer-sentenceDisplay" style="font-size: 1.4em; text-align: center; margin-bottom: 25px;"></div>
+
+            <div style="text-align: center;">
+              <div id="explorer-dropZone"
+                ondragover="explorerAllowDrop(event)"
+                ondrop="explorerDrop(event)"
+                style="display: inline-block; padding: 15px 30px; border: 3px dashed #667eea; background: white; border-radius: 10px; font-size: 1.2em; min-width: 180px; color: #667eea; font-weight: bold;">
+                Arrastra o toca aquí
+              </div>
             </div>
+
+            <div id="explorer-dragOptions" style="display: flex; justify-content: center; gap: 20px; margin-top: 30px; flex-wrap: wrap;"></div>
+
+            <div id="explorer-challengeFeedback" style="text-align: center; margin-top: 15px; font-weight: bold;"></div>
+          </div>
+
+          <div style="text-align: center; margin-top: 30px;">
+            <button class="mode-toggle" id="explorer-nextQuestionBtn" onclick="explorerNextQuestion()">Siguiente ➡️</button>
+            <button class="mode-toggle" style="background: #dc3545; margin-left: 10px;" onclick="explorerTogglePracticeMode()">Volver</button>
+          </div>
         </div>
+      </div>
     </div>
 
-    <div class="audio-player-float" id="audioPlayer">
-        <div class="audio-player-title" id="audioTitle">🔊 Reproduciendo...</div>
-        <audio id="audioElement" controls style="width: 100%; margin-top: 10px;"></audio>
+    <div class="audio-player-float" id="explorer-audioPlayer">
+      <div class="audio-player-title" id="explorer-audioTitle">🔊 Reproduciendo...</div>
+      <audio id="explorer-audioElement" controls style="width: 100%; margin-top: 10px;"></audio>
+    </div>
+  </section>
+
+  <!-- =========================
+       VIEW 2: MISIÓN
+       ========================= -->
+  <section class="app-view mission" id="view-mission">
+
+    <div class="content" id="mission-manual-view">
+      <h1 style="text-align: center; color: #ffa502;">📁 Manual de Agente</h1>
+
+      <div class="rule-card id">
+        <h2>1. El sonido /ɪd/ 🔴</h2>
+        <h3>La Sílaba Extra</h3>
+        <p>Es físicamente difícil pasar de un sonido /t/ o /d/ directamente a otra "t" o "d" sin una vocal. Por ello, el idioma añade una sílaba adicional.</p>
+        <p><b>Regla:</b> Si el verbo termina en <b>T o D</b>.</p>
+        <small>Ej: Accepted, Decided, Started...</small>
+      </div>
+
+      <div class="rule-card t">
+        <h2>2. El sonido /t/ 🟡</h2>
+        <h3>Regla de Sonidos Sordos</h3>
+        <p>Llamado "asimilación". Si terminas con un sonido sordo (voiceless), es más natural que el siguiente sea sordo (las cuerdas vocales no vibran).</p>
+        <p><b>Regla:</b> Termina en <b>p, k, f, s, sh, ch, x</b>.</p>
+        <small>Ej: Asked, Cooked, Watched...</small>
+      </div>
+
+      <div class="rule-card d">
+        <h2>3. El sonido /d/ 🟢</h2>
+        <h3>Regla de Sonidos Sonoros</h3>
+        <p>Si el verbo termina en sonido sonoro, tus cuerdas vocales ya están vibrando. Para mantener la fluidez, se usa /d/ (que también es sonoro).</p>
+        <p><b>Regla:</b> Termina en <b>l, n, r, b, g, v, z, m o Vocal</b>.</p>
+        <small>Ej: Allowed, Played, Worried...</small>
+      </div>
     </div>
 
-    <script>
-        const verbData = {
-            id: [
-                { verb: 'Accepted', example: 'The team accepted the challenge happily.' },
-                { verb: 'Added', example: 'She added some salt to the soup.' },
-                { verb: 'Afforded', example: 'I wish I could have afforded that trip.' },
-                { verb: 'Collected', example: 'We collected stamps as children.' },
-                { verb: 'Completed', example: 'He completed the marathon in 3 hours.' },
-                { verb: 'Counted', example: 'She counted the money carefully.' },
-                { verb: 'Defended', example: 'The lawyer defended his client successfully.' },
-                { verb: 'Decided', example: 'They decided to move to the countryside.' },
-                { verb: 'Depended', example: 'My salary depended on commission.' },
-                { verb: 'Doubted', example: 'Nobody doubted his innocence.' },
-                { verb: 'Ended', example: 'The movie ended with a surprise twist.' },
-                { verb: 'Expanded', example: 'The company expanded its market overseas.' },
-                { verb: 'Expected', example: 'I expected you to be on time.' },
-                { verb: 'Guarded', example: 'The dog guarded the house all night.' },
-                { verb: 'Hated', example: 'I hated waking up early on Sundays.' },
-                { verb: 'Heated', example: 'He heated the milk in the microwave.' },
-                { verb: 'Included', example: 'The price included taxes and service.' },
-                { verb: 'Intended', example: 'She intended to apologize later.' },
-                { verb: 'Invented', example: 'Who invented the light bulb?' },
-                { verb: 'Landed', example: 'The plane landed smoothly on the runway.' },
-                { verb: 'Lasted', example: 'The meeting lasted for two long hours.' },
-                { verb: 'Loaded', example: 'We loaded the truck with heavy boxes.' },
-                { verb: 'Needed', example: 'I needed help with my homework.' },
-                { verb: 'Objected', example: 'The defense objected to the question.' },
-                { verb: 'Ordered', example: 'We ordered pizza for dinner last night.' },
-                { verb: 'Planted', example: 'They planted flowers in the garden.' },
-                { verb: 'Pretended', example: 'The child pretended to be a superhero.' },
-                { verb: 'Printed', example: 'I printed the document this morning.' },
-                { verb: 'Provided', example: 'The hotel provided free breakfast.' },
-                { verb: 'Recorded', example: 'The band recorded a new album.' },
-                { verb: 'Regretted', example: 'He regretted his decision to quit.' },
-                { verb: 'Reminded', example: 'She reminded me of my appointment.' },
-                { verb: 'Reported', example: 'The journalist reported on the elections.' },
-                { verb: 'Requested', example: 'The client requested a full refund.' },
-                { verb: 'Started', example: 'The race started exactly at noon.' },
-                { verb: 'Submitted', example: 'I submitted my application yesterday.' },
-                { verb: 'Supported', example: 'The community supported the new park.' },
-                { verb: 'Treated', example: 'The doctor treated her cold quickly.' },
-                { verb: 'Visited', example: 'We visited Paris last summer.' },
-                { verb: 'Wanted', example: 'I wanted to tell you a secret.' }
-            ],
-            t: [
-                { verb: 'Asked', example: 'He asked me for directions.' },
-                { verb: 'Brushed', example: 'I brushed my teeth before bed.' },
-                { verb: 'Clapped', example: 'The audience clapped for the singer.' },
-                { verb: 'Cooked', example: 'My mom cooked a delicious meal.' },
-                { verb: 'Crashed', example: 'The car crashed into a lamppost.' },
-                { verb: 'Crossed', example: 'We crossed the street carefully.' },
-                { verb: 'Danced', example: 'They danced all night at the party.' },
-                { verb: 'Developed', example: 'The city developed quickly last year.' },
-                { verb: 'Dressed', example: 'She dressed elegantly for the event.' },
-                { verb: 'Dropped', example: 'Be careful, you dropped your keys!' },
-                { verb: 'Escaped', example: 'The prisoner escaped from jail.' },
-                { verb: 'Finished', example: 'I finally finished my project.' },
-                { verb: 'Fixed', example: 'The plumber fixed the leaky faucet.' },
-                { verb: 'Guessed', example: 'I guessed the correct answer.' },
-                { verb: 'Helped', example: 'My neighbor helped me move the furniture.' },
-                { verb: 'Hiked', example: 'We hiked up the mountain trail.' },
-                { verb: 'Hoped', example: 'I hoped for good weather tomorrow.' },
-                { verb: 'Introduced', example: 'She introduced me to her family.' },
-                { verb: 'Jumped', example: 'The cat jumped onto the shelf.' },
-                { verb: 'Kicked', example: 'He kicked the ball out of bounds.' },
-                { verb: 'Laughed', example: 'Everyone laughed at the joke.' },
-                { verb: 'Looked', example: 'I looked for my glasses everywhere.' },
-                { verb: 'Missed', example: 'We missed the bus this morning.' },
-                { verb: 'Passed', example: 'I passed the exam easily.' },
-                { verb: 'Picked', example: 'He picked up the dropped pen.' },
-                { verb: 'Practiced', example: 'They practiced guitar for hours.' },
-                { verb: 'Pushed', example: 'I pushed the heavy door open.' },
-                { verb: 'Relaxed', example: 'We relaxed on the beach all day.' },
-                { verb: 'Searched', example: 'I searched for the information online.' },
-                { verb: 'Shared', example: 'She shared her lunch with me.' },
-                { verb: 'Shopped', example: 'We shopped for groceries on Friday.' },
-                { verb: 'Skipped', example: 'He skipped the difficult questions.' },
-                { verb: 'Stopped', example: 'The car stopped at the red light.' },
-                { verb: 'Talked', example: 'We talked about our plans for the trip.' },
-                { verb: 'Tasted', example: 'I tasted the spicy curry carefully.' },
-                { verb: 'Touched', example: 'She touched the cold glass.' },
-                { verb: 'Washed', example: 'He washed the dishes after dinner.' },
-                { verb: 'Watched', example: 'We watched a movie last night.' },
-                { verb: 'Worked', example: 'I worked ten hours yesterday.' },
-                { verb: 'Worried', example: 'I worried about the test results.' }
-            ],
-            d: [
-                { verb: 'Answered', example: 'He answered the email promptly.' },
-                { verb: 'Allowed', example: 'The teacher allowed us to leave early.' },
-                { verb: 'Belonged', example: 'This coat belonged to my father.' },
-                { verb: 'Called', example: 'She called her mom yesterday.' },
-                { verb: 'Changed', example: 'The weather changed suddenly.' },
-                { verb: 'Cleaned', example: 'We cleaned the house all weekend.' },
-                { verb: 'Climbed', example: 'They climbed to the top of the hill.' },
-                { verb: 'Closed', example: 'The store closed at 9 PM.' },
-                { verb: 'Compared', example: 'I compared the prices of the two phones.' },
-                { verb: 'Covered', example: 'Snow covered the entire city.' },
-                { verb: 'Damaged', example: 'The storm damaged the roof.' },
-                { verb: 'Delayed', example: 'The flight was delayed due to fog.' },
-                { verb: 'Enjoyed', example: 'We enjoyed the concert very much.' },
-                { verb: 'Explained', example: 'The professor explained the theory.' },
-                { verb: 'Filled', example: 'She filled the glass with water.' },
-                { verb: 'Followed', example: 'I followed the recipe exactly.' },
-                { verb: 'Happened', example: 'What happened here last night?' },
-                { verb: 'Imagined', example: 'I imagined a world without limits.' },
-                { verb: 'Joined', example: 'He joined the conversation late.' },
-                { verb: 'Killed', example: 'The virus killed many plants.' },
-                { verb: 'Listened', example: 'We listened to music on the radio.' },
-                { verb: 'Lived', example: 'They lived in London for five years.' },
-                { verb: 'Loved', example: 'I loved that movie! It was great.' },
-                { verb: 'Managed', example: 'She managed the project successfully.' },
-                { verb: 'Measured', example: 'He measured the wood before cutting it.' },
-                { verb: 'Moved', example: 'I moved the chair closer to the table.' },
-                { verb: 'Named', example: 'They named their daughter Sofia.' },
-                { verb: 'Opened', example: 'I opened the window for fresh air.' },
-                { verb: 'Planned', example: 'We planned the trip in advance.' },
-                { verb: 'Played', example: 'The children played outside yesterday.' },
-                { verb: 'Pulled', example: 'He pulled the door hard to open it.' },
-                { verb: 'Realized', example: 'I realized my mistake immediately.' },
-                { verb: 'Remembered', example: 'She remembered his name instantly.' },
-                { verb: 'Saved', example: 'I saved the document before closing.' },
-                { verb: 'Signed', example: 'He signed the contract this morning.' },
-                { verb: 'Stayed', example: 'We stayed at a hotel downtown.' },
-                { verb: 'Traveled', example: 'I traveled to Italy last month.' },
-                { verb: 'Tried', example: 'She tried to fix the computer.' },
-                { verb: 'Used', example: 'I used my phone to take a picture.' },
-                { verb: 'Worried', example: 'I worried about the test results.' }
-            ]
-        };
+    <div class="content hidden" id="mission-game-view">
+      <div class="stats-bar">
+        <span>Puntos: <b id="mission-score">0</b></span>
+        <span>Racha: <b id="mission-streak">0</b>🔥</span>
+      </div>
 
-        let practiceMode = false;
-        let practicedVerbs = new Set();
-        let currentFilter = 'all';
-        let currentQuizVerb = null;
-        let quizCorrect = 0;
-        let quizTotal = 0;
+      <div class="game-header">
+        <p>¿Qué sonido sigue este verbo?</p>
+      </div>
 
-        function getAudioPaths(verb, category) {
-            const folders = ['id_sound/', 't_sound/', 'd_sound/'];
-            const folderName = folders[['id', 't', 'd'].indexOf(category)];
-            
-            const basePaths = [
-                folderName,
-                `audio/${folderName}`,
-                `audios/${folderName}`,
-                `sound/${folderName}`,
-                `sounds/${folderName}`,
-                `../audio/${folderName}`,
-            ];
-            
-            const nameVariations = [
-                `${verb}..mp3`,
-                `${verb}.mp3`,
-                `${verb.toLowerCase()}.mp3`,
-                `${verb.toLowerCase()}..mp3`,
-                `${verb} .mp3`,
-                `${verb}_.mp3`,
-                `${verb}_ed.mp3`,
-            ];
-            
-            const allPaths = [];
-            for (const base of basePaths) {
-                for (const name of nameVariations) {
-                    allPaths.push(`${base}${name}`);
-                }
-            }
-            
-            return allPaths;
+      <div id="mission-verb-box" class="verb-display">READY?</div>
+
+      <div class="btn-grid">
+        <button class="choice-btn btn-id" onclick="missionCheckAnswer('id')">
+          <span>/ɪd/ (Sílaba Extra)</span> <span>🔴</span>
+        </button>
+        <button class="choice-btn btn-t" onclick="missionCheckAnswer('t')">
+          <span>/t/ (Sonido Sordo)</span> <span>🟡</span>
+        </button>
+        <button class="choice-btn btn-d" onclick="missionCheckAnswer('d')">
+          <span>/d/ (Sonido Sonoro)</span> <span>🟢</span>
+        </button>
+      </div>
+    </div>
+
+    <div id="mission-feedback-icon" class="feedback"></div>
+
+    <div class="nav">
+      <div class="nav-item active" id="mission-nav-manual" onclick="missionShowView('manual')">
+        📖<br>Manual
+      </div>
+      <div class="nav-item" id="mission-nav-game" onclick="missionShowView('game')">
+        🎮<br>Jugar
+      </div>
+    </div>
+  </section>
+
+  <script>
+    /* =========================
+       DATA ÚNICO (fusionado)
+       - Explorador: verb + example
+       - Misión: usa los mismos verbos (sin perder ninguno)
+       ========================= */
+        const verbDataFull = {
+      id: [
+        { verb: 'Accepted', example: 'The team accepted the challenge happily.' },
+        { verb: 'Added', example: 'She added some salt to the soup.' },
+        { verb: 'Attended', example: 'He attended the workshop yesterday.' },
+        { verb: 'Collected', example: 'We collected stamps as children.' },
+        { verb: 'Completed', example: 'He completed the marathon in 3 hours.' },
+        { verb: 'Counted', example: 'She counted the money carefully.' },
+        { verb: 'Decided', example: 'They decided to move to the countryside.' },
+        { verb: 'Defended', example: 'The lawyer defended his client successfully.' },
+        { verb: 'Depended', example: 'My salary depended on commission.' },
+        { verb: 'Doubted', example: 'Nobody doubted his innocence.' },
+        { verb: 'Edited', example: 'She edited the final report.' },
+        { verb: 'Ended', example: 'The movie ended with a surprise twist.' },
+        { verb: 'Expected', example: 'I expected you to be on time.' },
+        { verb: 'Hated', example: 'I hated waking up early on Sundays.' },
+        { verb: 'Heated', example: 'He heated the milk in the microwave.' },
+        { verb: 'Included', example: 'The price included taxes and service.' },
+        { verb: 'Invited', example: 'They invited us to dinner.' },
+        { verb: 'Invented', example: 'Who invented the light bulb?' },
+        { verb: 'Lasted', example: 'The meeting lasted for two long hours.' },
+        { verb: 'Limited', example: 'They limited the number of seats.' },
+        { verb: 'Located', example: 'The hotel was located downtown.' },
+        { verb: 'Needed', example: 'I needed help with my homework.' },
+        { verb: 'Noted', example: 'She noted the main points.' },
+        { verb: 'Objected', example: 'The defense objected to the question.' },
+        { verb: 'Painted', example: 'He painted the wall blue.' },
+        { verb: 'Planted', example: 'They planted flowers in the garden.' },
+        { verb: 'Printed', example: 'I printed the document this morning.' },
+        { verb: 'Protected', example: 'Helmets protected their heads.' },
+        { verb: 'Rejected', example: 'They rejected the proposal.' },
+        { verb: 'Repeated', example: 'He repeated the question slowly.' },
+        { verb: 'Reported', example: 'The journalist reported on the elections.' },
+        { verb: 'Requested', example: 'The client requested a full refund.' },
+        { verb: 'Rested', example: 'We rested after the hike.' },
+        { verb: 'Selected', example: 'She selected the best option.' },
+        { verb: 'Separated', example: 'They separated the files by type.' },
+        { verb: 'Started', example: 'The race started exactly at noon.' },
+        { verb: 'Suggested', example: 'He suggested a different plan.' },
+        { verb: 'Supported', example: 'The community supported the new park.' },
+        { verb: 'Tasted', example: 'I tasted the spicy curry carefully.' },
+        { verb: 'Tested', example: 'They tested the new feature.' },
+        { verb: 'Treated', example: 'The doctor treated her cold quickly.' },
+        { verb: 'Updated', example: 'She updated the website today.' },
+        { verb: 'Visited', example: 'We visited Paris last summer.' },
+        { verb: 'Waited', example: 'I waited for the bus.' },
+        { verb: 'Wanted', example: 'I wanted to tell you a secret.' },
+        { verb: 'Wasted', example: 'He wasted a lot of time.' },
+        { verb: 'Audited', example: 'They audited the accounts.' },
+        { verb: 'Quoted', example: 'He quoted the author accurately.' },
+        { verb: 'Promoted', example: 'She was promoted last month.' },
+        { verb: 'Shifted', example: 'The focus shifted quickly.' }
+      ],
+
+      t: [
+        { verb: 'Asked', example: 'He asked me for directions.' },
+        { verb: 'Brushed', example: 'I brushed my teeth before bed.' },
+        { verb: 'Clapped', example: 'The audience clapped for the singer.' },
+        { verb: 'Cooked', example: 'My mom cooked a delicious meal.' },
+        { verb: 'Crashed', example: 'The car crashed into a lamppost.' },
+        { verb: 'Crossed', example: 'We crossed the street carefully.' },
+        { verb: 'Danced', example: 'They danced all night at the party.' },
+        { verb: 'Dropped', example: 'Be careful, you dropped your keys!' },
+        { verb: 'Escaped', example: 'The prisoner escaped from jail.' },
+        { verb: 'Finished', example: 'I finally finished my project.' },
+        { verb: 'Fixed', example: 'The plumber fixed the leaky faucet.' },
+        { verb: 'Guessed', example: 'I guessed the correct answer.' },
+        { verb: 'Helped', example: 'My neighbor helped me move the furniture.' },
+        { verb: 'Hiked', example: 'We hiked up the mountain trail.' },
+        { verb: 'Hoped', example: 'I hoped for good weather tomorrow.' },
+        { verb: 'Jumped', example: 'The cat jumped onto the shelf.' },
+        { verb: 'Kicked', example: 'He kicked the ball out of bounds.' },
+        { verb: 'Laughed', example: 'Everyone laughed at the joke.' },
+        { verb: 'Looked', example: 'I looked for my glasses everywhere.' },
+        { verb: 'Missed', example: 'We missed the bus this morning.' },
+        { verb: 'Passed', example: 'I passed the exam easily.' },
+        { verb: 'Picked', example: 'He picked up the dropped pen.' },
+        { verb: 'Practiced', example: 'They practiced guitar for hours.' },
+        { verb: 'Pushed', example: 'I pushed the heavy door open.' },
+        { verb: 'Relaxed', example: 'We relaxed on the beach all day.' },
+        { verb: 'Skipped', example: 'He skipped the difficult questions.' },
+        { verb: 'Stopped', example: 'The car stopped at the red light.' },
+        { verb: 'Talked', example: 'We talked about our plans for the trip.' },
+        { verb: 'Touched', example: 'She touched the cold glass.' },
+        { verb: 'Washed', example: 'He washed the dishes after dinner.' },
+        { verb: 'Watched', example: 'We watched a movie last night.' },
+        { verb: 'Worked', example: 'I worked ten hours yesterday.' },
+        { verb: 'Walked', example: 'She walked home after class.' },
+        { verb: 'Packed', example: 'He packed his suitcase quickly.' },
+        { verb: 'Locked', example: 'She locked the door at night.' },
+        { verb: 'Knocked', example: 'He knocked on the window.' },
+        { verb: 'Kissed', example: 'She kissed her child goodnight.' },
+        { verb: 'Smoked', example: 'He smoked outside only.' },
+        { verb: 'Shopped', example: 'We shopped for groceries on Friday.' },
+        { verb: 'Licked', example: 'The dog licked my hand.' },
+        { verb: 'Baked', example: 'She baked a chocolate cake.' },
+        { verb: 'Chopped', example: 'He chopped the onions finely.' },
+        { verb: 'Fished', example: 'They fished by the river.' },
+        { verb: 'Matched', example: 'The socks matched perfectly.' },
+        { verb: 'Wrapped', example: 'She wrapped the present.' },
+        { verb: 'Shipped', example: 'They shipped the package today.' },
+        { verb: 'Shouted', example: 'He shouted across the street.' },
+        { verb: 'Wished', example: 'I wished you good luck.' },
+        { verb: 'Pressed', example: 'She pressed the button.' },
+        { verb: 'Slipped', example: 'She slipped on the floor.' }
+      ],
+
+      d: [
+        { verb: 'Allowed', example: 'The teacher allowed us to leave early.' },
+        { verb: 'Answered', example: 'He answered the email promptly.' },
+        { verb: 'Arrived', example: 'They arrived early for the meeting.' },
+        { verb: 'Belonged', example: 'This coat belonged to my father.' },
+        { verb: 'Called', example: 'She called her mom yesterday.' },
+        { verb: 'Changed', example: 'The weather changed suddenly.' },
+        { verb: 'Cleaned', example: 'We cleaned the house all weekend.' },
+        { verb: 'Climbed', example: 'They climbed to the top of the hill.' },
+        { verb: 'Closed', example: 'The store closed at 9 PM.' },
+        { verb: 'Compared', example: 'I compared the prices of the two phones.' },
+        { verb: 'Covered', example: 'Snow covered the entire city.' },
+        { verb: 'Damaged', example: 'The storm damaged the roof.' },
+        { verb: 'Delayed', example: 'The flight was delayed due to fog.' },
+        { verb: 'Enjoyed', example: 'We enjoyed the concert very much.' },
+        { verb: 'Explained', example: 'The professor explained the theory.' },
+        { verb: 'Filled', example: 'She filled the glass with water.' },
+        { verb: 'Filed', example: 'She filed the papers neatly.' },
+        { verb: 'Followed', example: 'I followed the recipe exactly.' },
+        { verb: 'Happened', example: 'What happened here last night?' },
+        { verb: 'Imagined', example: 'I imagined a world without limits.' },
+        { verb: 'Joined', example: 'He joined the conversation late.' },
+        { verb: 'Hugged', example: 'He hugged his friend goodbye.' },
+        { verb: 'Robbed', example: 'They robbed the bank at night.' },
+        { verb: 'Listened', example: 'We listened to music on the radio.' },
+        { verb: 'Lived', example: 'They lived in London for five years.' },
+        { verb: 'Loved', example: 'I loved that movie! It was great.' },
+        { verb: 'Managed', example: 'She managed the project successfully.' },
+        { verb: 'Measured', example: 'He measured the wood before cutting it.' },
+        { verb: 'Moved', example: 'I moved the chair closer to the table.' },
+        { verb: 'Named', example: 'They named their daughter Sofia.' },
+        { verb: 'Opened', example: 'I opened the window for fresh air.' },
+        { verb: 'Planned', example: 'We planned the trip in advance.' },
+        { verb: 'Played', example: 'The children played outside yesterday.' },
+        { verb: 'Pulled', example: 'He pulled the door hard to open it.' },
+        { verb: 'Realized', example: 'I realized my mistake immediately.' },
+        { verb: 'Remembered', example: 'She remembered his name instantly.' },
+        { verb: 'Saved', example: 'I saved the document before closing.' },
+        { verb: 'Signed', example: 'He signed the contract this morning.' },
+        { verb: 'Stayed', example: 'We stayed at a hotel downtown.' },
+        { verb: 'Traveled', example: 'I traveled to Italy last month.' },
+        { verb: 'Towed', example: 'He towed the car to the garage.' },
+        { verb: 'Used', example: 'I used my phone to take a picture.' },
+        { verb: 'Worried', example: 'I worried about the test results.' },
+        { verb: 'Shared', example: 'She shared her lunch with me.' },
+        { verb: 'Ordered', example: 'We ordered pizza for dinner last night.' },
+        { verb: 'Smiled', example: 'He smiled politely.' },
+        { verb: 'Agreed', example: 'They agreed to the plan.' },
+        { verb: 'Believed', example: 'She believed his story.' },
+        { verb: 'Carried', example: 'She carried the bags upstairs.' },
+        { verb: 'Replied', example: 'He replied quickly to my message.' }
+      ]
+    };
+
+    // Dataset "simple" para la Misión (igual que tu 2ª página, pero derivado del full)
+    const missionVerbData = {
+      id: verbDataFull.id.map(x => x.verb),
+      t: verbDataFull.t.map(x => x.verb),
+      d: verbDataFull.d.map(x => x.verb),
+    };
+
+    /* =========================
+       APP: CAMBIO DE VISTAS (nuevo)
+       ========================= */
+    function appShow(which){
+      const explorer = document.getElementById('view-explorer');
+      const mission = document.getElementById('view-mission');
+      document.getElementById('tab-explorer').classList.remove('active');
+      document.getElementById('tab-mission').classList.remove('active');
+
+      if(which === 'mission'){
+        explorer.classList.remove('active');
+        mission.classList.add('active');
+        document.getElementById('tab-mission').classList.add('active');
+      } else {
+        mission.classList.remove('active');
+        explorer.classList.add('active');
+        document.getElementById('tab-explorer').classList.add('active');
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    /* =========================
+       EXPLORADOR (tu 1ª página, intacta en lógica)
+       ========================= */
+    let explorerPracticeMode = false;
+    let explorerPracticedVerbs = new Set();
+    let explorerCurrentFilter = 'all';
+    let explorerCurrentQuizVerb = null;
+    let explorerQuizCorrect = 0;
+    let explorerQuizTotal = 0;
+
+    function explorerGetAudioPaths(verb, category) {
+      const folders = ['id_sound/', 't_sound/', 'd_sound/'];
+      const folderName = folders[['id', 't', 'd'].indexOf(category)];
+
+      const basePaths = [
+        folderName,
+        `audio/${folderName}`,
+        `audios/${folderName}`,
+        `sound/${folderName}`,
+        `sounds/${folderName}`,
+        `../audio/${folderName}`,
+      ];
+
+      const nameVariations = [
+        `${verb}..mp3`,
+        `${verb}.mp3`,
+        `${verb.toLowerCase()}.mp3`,
+        `${verb.toLowerCase()}..mp3`,
+        `${verb} .mp3`,
+        `${verb}_.mp3`,
+        `${verb}_ed.mp3`,
+      ];
+
+      const allPaths = [];
+      for (const base of basePaths) {
+        for (const name of nameVariations) {
+          allPaths.push(`${base}${name}`);
         }
+      }
+      return allPaths;
+    }
 
-        function init() {
-            renderVerbLists();
-            setupEventListeners();
-            updateStats();
+    function explorerInit() {
+      explorerRenderVerbLists();
+      explorerSetupEventListeners();
+      explorerUpdateStats();
+    }
+
+    function explorerRenderVerbLists() {
+      const container = document.getElementById('explorer-verbListContainer');
+      container.innerHTML = '';
+
+      const titles = {
+        id: '🔴 Verbos /ɪd/ - Sílaba Extra',
+        t: '🟡 Verbos /t/ - Sonidos Sordos',
+        d: '🟢 Verbos /d/ - Sonidos Sonoros'
+      };
+
+      Object.keys(verbDataFull).forEach(category => {
+        if (explorerCurrentFilter !== 'all' && explorerCurrentFilter !== category) return;
+
+        const verbList = document.createElement('div');
+        verbList.className = `verb-list ${category}-list`;
+        verbList.innerHTML = `<h3>${titles[category]}</h3><div class="verb-grid" id="explorer-grid-${category}"></div>`;
+        container.appendChild(verbList);
+
+        const grid = document.getElementById(`explorer-grid-${category}`);
+
+        verbDataFull[category].forEach(item => {
+          const verbItem = document.createElement('div');
+          verbItem.className = 'verb-item';
+
+          if (explorerPracticedVerbs.has(item.verb)) verbItem.classList.add('played');
+          verbItem.textContent = item.verb;
+
+          const exampleSpan = document.createElement('span');
+          exampleSpan.className = 'example-text';
+          exampleSpan.innerHTML = `<strong>Ejemplo:</strong><br>${item.example}`;
+          verbItem.appendChild(exampleSpan);
+
+          verbItem.onclick = () => explorerPlayAudio(item.verb, category);
+          grid.appendChild(verbItem);
+        });
+      });
+    }
+
+    async function explorerPlayAudio(verb, category) {
+      explorerPracticedVerbs.add(verb);
+      explorerUpdateStats();
+      explorerRenderVerbLists();
+
+      const audioElement = document.getElementById('explorer-audioElement');
+      const audioPlayer = document.getElementById('explorer-audioPlayer');
+      const audioTitle = document.getElementById('explorer-audioTitle');
+
+      const paths = explorerGetAudioPaths(verb, category);
+
+      audioTitle.textContent = `🔊 ${verb}`;
+      audioPlayer.classList.add('show');
+
+      let audioLoaded = false;
+
+      for (const path of paths) {
+        try {
+          audioElement.src = path;
+          await audioElement.play();
+          audioLoaded = true;
+          break;
+        } catch (error) {
+          continue;
         }
+      }
 
-        function renderVerbLists() {
-            const container = document.getElementById('verbListContainer');
-            container.innerHTML = '';
+      if (!audioLoaded) {
+        audioTitle.textContent = `❌ Audio no encontrado: ${verb}`;
+        setTimeout(() => audioPlayer.classList.remove('show'), 2000);
+      }
 
-            const titles = {
-                id: '🔴 Verbos /ɪd/ - Sílaba Extra',
-                t: '🟡 Verbos /t/ - Sonidos Sordos',
-                d: '🟢 Verbos /d/ - Sonidos Sonoros'
-            };
+      audioElement.onended = () => {
+        setTimeout(() => audioPlayer.classList.remove('show'), 500);
+      };
+    }
 
-            Object.keys(verbData).forEach(category => {
-                if (currentFilter !== 'all' && currentFilter !== category) return;
+    function explorerSetupEventListeners() {
+      document.getElementById('explorer-searchInput').addEventListener('input', (e) => {
+        const searchTerm = e.target.value.toLowerCase();
+        document.querySelectorAll('#explorer-verbListContainer .verb-item').forEach(item => {
+          item.style.display = item.textContent.toLowerCase().includes(searchTerm) ? 'block' : 'none';
+        });
+      });
 
-                const verbList = document.createElement('div');
-                verbList.className = `verb-list ${category}-list`;
-                verbList.innerHTML = `<h3>${titles[category]}</h3><div class="verb-grid" id="grid-${category}"></div>`;
-                container.appendChild(verbList);
+      document.querySelectorAll('.filter-btn[data-scope="explorer"]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.filter-btn[data-scope="explorer"]').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          explorerCurrentFilter = btn.dataset.filter;
+          explorerRenderVerbLists();
+        });
+      });
+    }
 
-                const grid = document.getElementById(`grid-${category}`);
-                
-                verbData[category].forEach(item => { 
-                    const verbItem = document.createElement('div');
-                    verbItem.className = 'verb-item';
-                    
-                    if (practicedVerbs.has(item.verb)) verbItem.classList.add('played');
-                    verbItem.textContent = item.verb;
-                    
-                    const exampleSpan = document.createElement('span');
-                    exampleSpan.className = 'example-text';
-                    exampleSpan.innerHTML = `<strong>Ejemplo:</strong><br>${item.example}`; 
-                    verbItem.appendChild(exampleSpan);
+    function explorerTogglePracticeMode() {
+explorerPracticeMode = !explorerPracticeMode;
+      document.getElementById('explorer-rulesSection').classList.toggle('hidden');
+      document.getElementById('explorer-verbListsSection').classList.toggle('hidden');
+            const adjSection = document.getElementById('explorer-adjSection');
+      if (adjSection) adjSection.classList.toggle('hidden');
+document.getElementById('explorer-practiceMode').classList.toggle('active');
+      document.getElementById('explorer-dragDropChallenge').classList.add('hidden');
+      if (explorerPracticeMode) explorerStartQuiz();
+    }
 
-                    verbItem.onclick = () => playAudio(item.verb, category);
-                    grid.appendChild(verbItem);
-                });
-            });
+    function explorerStartQuiz() {
+      document.getElementById('explorer-nextQuestionBtn').classList.remove('hidden');
+      explorerNextQuestion();
+    }
+
+    function explorerNextQuestion() {
+      document.querySelectorAll('#explorer-quizOptions .quiz-option').forEach(opt => {
+        opt.classList.remove('correct', 'incorrect');
+        opt.onclick = () => explorerCheckAnswer(opt.getAttribute('data-value'), opt);
+      });
+
+      document.getElementById('explorer-dragDropChallenge').classList.add('hidden');
+      document.getElementById('explorer-quizVerb').style.display = 'block';
+      document.getElementById('explorer-quizOptions').style.display = 'grid';
+      document.getElementById('explorer-nextQuestionBtn').classList.add('hidden');
+
+      const categories = Object.keys(verbDataFull);
+      const randomCategory = categories[Math.floor(Math.random() * categories.length)];
+      const verbs = verbDataFull[randomCategory];
+
+      const randomVerbObject = verbs[Math.floor(Math.random() * verbs.length)];
+
+      explorerCurrentQuizVerb = {
+        verb: randomVerbObject.verb,
+        category: randomCategory,
+        example: randomVerbObject.example
+      };
+
+      document.getElementById('explorer-quizVerb').textContent = explorerCurrentQuizVerb.verb;
+
+      const optionsContainer = document.getElementById('explorer-quizOptions');
+      optionsContainer.innerHTML = '';
+
+      const options = [
+        { label: '🔴 /ɪd/ - Sílaba extra', value: 'id' },
+        { label: '🟡 /t/ - Sonido sordo', value: 't' },
+        { label: '🟢 /d/ - Sonido sonoro', value: 'd' }
+      ];
+
+      options.forEach(option => {
+        const optionDiv = document.createElement('div');
+        optionDiv.className = 'quiz-option';
+        optionDiv.textContent = option.label;
+        optionDiv.setAttribute('data-value', option.value);
+        optionDiv.onclick = () => explorerCheckAnswer(option.value, optionDiv);
+        optionsContainer.appendChild(optionDiv);
+      });
+    }
+
+    function explorerCheckAnswer(selected, element) {
+      explorerQuizTotal++;
+
+      document.querySelectorAll('#explorer-quizOptions .quiz-option').forEach(opt => opt.onclick = null);
+
+      if (selected === explorerCurrentQuizVerb.category) {
+        element.classList.add('correct');
+        explorerPlayAudio(explorerCurrentQuizVerb.verb, explorerCurrentQuizVerb.category);
+        setTimeout(() => explorerStartDragDropChallenge(), 1500);
+      } else {
+        element.classList.add('incorrect');
+        document.querySelectorAll('#explorer-quizOptions .quiz-option').forEach(opt => {
+          if (opt.getAttribute('data-value') === explorerCurrentQuizVerb.category) {
+            opt.classList.add('correct');
+          }
+        });
+        explorerUpdateQuizScore();
+        document.getElementById('explorer-nextQuestionBtn').classList.remove('hidden');
+        document.getElementById('explorer-nextQuestionBtn').textContent = "Continuar ➡️";
+      }
+    }
+
+    // DRAG & DROP (misma lógica, con ids prefijados)
+    function explorerFinalizeAnswer(soundValue, elementId) {
+      const dropZone = document.getElementById('explorer-dropZone');
+      const challengeFeedback = document.getElementById('explorer-challengeFeedback');
+      const element = document.getElementById(elementId);
+
+      if (dropZone.classList.contains('correct') || dropZone.classList.contains('incorrect')) return;
+
+      if (element) element.style.visibility = 'hidden';
+
+      dropZone.textContent = soundValue.toUpperCase();
+
+      if (soundValue === explorerCurrentQuizVerb.category) {
+        explorerQuizCorrect++;
+        explorerUpdateQuizScore();
+        dropZone.classList.add('correct');
+        challengeFeedback.textContent = "¡Éxito! 🎉 El sonido coincide con la regla de la frase.";
+
+        dropZone.style.transform = "scale(1.1)";
+        setTimeout(() => dropZone.style.transform = "scale(1)", 200);
+      } else {
+        dropZone.classList.add('incorrect');
+        challengeFeedback.textContent = `❌ Incorrecto. El sonido correcto era: ${explorerCurrentQuizVerb.category.toUpperCase()}`;
+      }
+
+      dropZone.ondrop = null;
+
+      document.getElementById('explorer-nextQuestionBtn').classList.remove('hidden');
+      document.getElementById('explorer-nextQuestionBtn').textContent = "Siguiente ➡️";
+    }
+
+    function explorerDrag(ev) {
+      ev.dataTransfer.setData("text", ev.target.getAttribute('data-sound'));
+      ev.dataTransfer.setData("source-id", ev.target.id);
+    }
+    function explorerAllowDrop(ev) { ev.preventDefault(); }
+    function explorerDrop(ev) {
+      ev.preventDefault();
+      const draggedSound = ev.dataTransfer.getData("text");
+      const draggedElementId = ev.dataTransfer.getData("source-id");
+      explorerFinalizeAnswer(draggedSound, draggedElementId);
+    }
+    function explorerHandleClickOption(ev) {
+      const sound = ev.target.getAttribute('data-sound');
+      const id = ev.target.id;
+      explorerFinalizeAnswer(sound, id);
+    }
+
+    function explorerResetDropZone() {
+      const dropZone = document.getElementById('explorer-dropZone');
+      dropZone.classList.remove('correct', 'incorrect');
+      dropZone.textContent = "Arrastra o toca aquí";
+      dropZone.ondrop = explorerDrop;
+      dropZone.style.transform = "scale(1)";
+      document.getElementById('explorer-challengeFeedback').textContent = "";
+    }
+
+    function explorerStartDragDropChallenge() {
+      document.getElementById('explorer-quizVerb').style.display = 'none';
+      document.getElementById('explorer-quizOptions').style.display = 'none';
+
+      const challengeContainer = document.getElementById('explorer-dragDropChallenge');
+      challengeContainer.classList.remove('hidden');
+
+      explorerResetDropZone();
+
+      const regex = new RegExp(explorerCurrentQuizVerb.verb, 'i');
+      let sentence = explorerCurrentQuizVerb.example.replace(regex, " [ ... ] ");
+      document.getElementById('explorer-sentenceDisplay').innerHTML = `Frase: *${sentence}*`;
+
+      const dragOptions = document.getElementById('explorer-dragOptions');
+      dragOptions.innerHTML = '';
+
+      const sounds = [
+        { label: '/ɪd/ (id)', value: 'id' },
+        { label: '/t/ (t)', value: 't' },
+        { label: '/d/ (d)', value: 'd' }
+      ];
+
+      sounds.sort(() => Math.random() - 0.5);
+
+      sounds.forEach((sound, index) => {
+        const option = document.createElement('div');
+        option.className = 'drag-option';
+        option.textContent = sound.label;
+        option.id = `explorer-drag-${index}`;
+
+        option.setAttribute('draggable', true);
+        option.setAttribute('data-sound', sound.value);
+        option.setAttribute('ondragstart', 'explorerDrag(event)');
+
+        option.onclick = explorerHandleClickOption;
+
+        option.style.cursor = 'pointer';
+        option.style.visibility = 'visible';
+
+        dragOptions.appendChild(option);
+      });
+    }
+
+    function explorerUpdateStats() {
+      document.getElementById('explorer-totalVerbs').textContent =
+        Object.values(verbDataFull).reduce((sum, arr) => sum + arr.length, 0);
+      document.getElementById('explorer-practicedVerbs').textContent = explorerPracticedVerbs.size;
+      document.getElementById('explorer-quizScore').textContent = `${explorerQuizCorrect}/${explorerQuizTotal}`;
+    }
+
+    function explorerUpdateQuizScore() {
+      document.getElementById('explorer-currentScore').textContent =
+        `Puntuación: ${explorerQuizCorrect}/${explorerQuizTotal} (${explorerQuizTotal > 0 ? Math.round(explorerQuizCorrect/explorerQuizTotal*100) : 0}%)`;
+      explorerUpdateStats();
+    }
+
+    /* =========================
+       MISIÓN (tu 2ª página, intacta en lógica)
+       ========================= */
+    let missionScore = 0;
+    let missionStreak = 0;
+    let missionCurrentVerb = "";
+    let missionCurrentCat = "";
+
+    function missionShowView(view) {
+      document.getElementById('mission-manual-view').classList.add('hidden');
+      document.getElementById('mission-game-view').classList.add('hidden');
+      document.getElementById('mission-nav-manual').classList.remove('active');
+      document.getElementById('mission-nav-game').classList.remove('active');
+
+      if (view === 'manual') {
+        document.getElementById('mission-manual-view').classList.remove('hidden');
+        document.getElementById('mission-nav-manual').classList.add('active');
+      } else {
+        document.getElementById('mission-game-view').classList.remove('hidden');
+        document.getElementById('mission-nav-game').classList.add('active');
+        missionNextVerb();
+      }
+    }
+
+    function missionNextVerb() {
+      const cats = ['id', 't', 'd'];
+      missionCurrentCat = cats[Math.floor(Math.random() * 3)];
+      const list = missionVerbData[missionCurrentCat];
+      missionCurrentVerb = list[Math.floor(Math.random() * list.length)];
+
+      const display = document.getElementById('mission-verb-box');
+      display.textContent = missionCurrentVerb.toUpperCase();
+      display.style.color = "white";
+    }
+
+    function missionCheckAnswer(userChoice) {
+      const feedback = document.getElementById('mission-feedback-icon');
+
+      if (userChoice === missionCurrentCat) {
+        missionScore += 10 + (missionStreak * 2);
+        missionStreak++;
+        feedback.textContent = "✅";
+        missionTriggerAnimation();
+      } else {
+        missionStreak = 0;
+        feedback.textContent = "❌";
+        missionTriggerAnimation();
+        document.getElementById('mission-verb-box').style.color = "#ff4757";
+      }
+
+      document.getElementById('mission-score').textContent = missionScore;
+      document.getElementById('mission-streak').textContent = missionStreak;
+
+      setTimeout(missionNextVerb, 600);
+    }
+
+    function missionTriggerAnimation() {
+      const f = document.getElementById('mission-feedback-icon');
+      f.classList.remove('animate-pop');
+      void f.offsetWidth;
+      f.classList.add('animate-pop');
+    }
+
+    /* =========================
+       INIT
+       ========================= */
+    
+    function explorerScrollToRule(targetId){
+      const el = document.getElementById(targetId);
+      if(!el) return;
+
+      // Ensure we're in Explorer view
+      appShow('explorer');
+
+      // Offset for the sticky topbar
+      const topbar = document.querySelector('.app-topbar');
+      const offset = topbar ? topbar.getBoundingClientRect().height + 12 : 80;
+
+      const y = el.getBoundingClientRect().top + window.pageYOffset - offset;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+
+      // Highlight for a moment
+      const prev = el.style.boxShadow;
+      el.style.boxShadow = '0 0 0 4px rgba(102,126,234,0.25)';
+      setTimeout(() => { el.style.boxShadow = prev; }, 900);
+    }
+
+    document.addEventListener('click', (e) => {
+      const row = e.target.closest('.explorer .rule-row');
+      if(row){
+        explorerScrollToRule(row.getAttribute('data-target'));
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      const el = document.activeElement;
+      if(el && el.classList && el.classList.contains('rule-row') && (e.key === 'Enter' || e.key === ' ')){
+        e.preventDefault();
+        explorerScrollToRule(el.getAttribute('data-target'));
+      }
+    });
+
+
+
+    function explorerToggleRuleAccordion(row){
+      const targetId = row.getAttribute('data-target');
+      if(!targetId) return;
+      const acc = document.getElementById(targetId);
+      if(!acc) return;
+
+      const isOpen = acc.classList.contains('open');
+
+      // close all accordions
+      document.querySelectorAll('.explorer .rule-accordion').forEach(r => {
+        r.classList.remove('open');
+        r.setAttribute('aria-hidden','true');
+      });
+      document.querySelectorAll('.explorer .rule-row').forEach(r => {
+        r.setAttribute('aria-expanded','false');
+      });
+
+      // toggle current
+      if(!isOpen){
+        acc.classList.add('open');
+        acc.setAttribute('aria-hidden','false');
+        row.setAttribute('aria-expanded','true');
+      }
+    }
+
+    // Click on rule rows -> accordion
+    document.addEventListener('click', (e) => {
+      const row = e.target.closest('.explorer .rule-row');
+      if(row){
+        explorerToggleRuleAccordion(row);
+      }
+    });
+
+    // Keyboard accessibility
+    document.addEventListener('keydown', (e) => {
+      const el = document.activeElement;
+      if(el && el.classList && el.classList.contains('rule-row') && (e.key === 'Enter' || e.key === ' ')){
+        e.preventDefault();
+        explorerToggleRuleAccordion(el);
+      }
+    });
+
+    // Buttons inside accordion -> jump to full explanation section
+    document.addEventListener('click', (e) => {
+      const btn = e.target.closest('.explorer .rule-jump');
+      if(btn){
+        e.stopPropagation();
+        const jumpId = btn.getAttribute('data-jump');
+        const target = document.getElementById(jumpId);
+        if(target){
+          const topbar = document.querySelector('.app-topbar');
+          const offset = topbar ? topbar.getBoundingClientRect().height + 12 : 80;
+          const y = target.getBoundingClientRect().top + window.pageYOffset - offset;
+          window.scrollTo({ top: y, behavior: 'smooth' });
+
+          const prev = target.style.boxShadow;
+          target.style.boxShadow = '0 0 0 4px rgba(102,126,234,0.25)';
+          setTimeout(() => { target.style.boxShadow = prev; }, 900);
         }
+      }
+    });
 
-        async function playAudio(verb, category) {
-            practicedVerbs.add(verb);
-            updateStats();
-            renderVerbLists();
 
-            const audioElement = document.getElementById('audioElement');
-            const audioPlayer = document.getElementById('audioPlayer');
-            const audioTitle = document.getElementById('audioTitle');
 
-            const paths = getAudioPaths(verb, category);
-            
-            audioTitle.textContent = `🔊 ${verb}`;
-            audioPlayer.classList.add('show');
+    // =========================
+    // Acordeón de reglas (muestra explicación SOLO al pulsar)
+    // =========================
+    function explorerToggleRuleAccordion(row){
+      const targetId = row.getAttribute('data-target');
+      if(!targetId) return;
+      const acc = document.getElementById(targetId);
+      if(!acc) return;
 
-            let audioLoaded = false;
+      const isOpen = acc.classList.contains('open');
 
-            for (const path of paths) {
-                try {
-                    audioElement.src = path;
-                    await audioElement.play();
-                    audioLoaded = true;
-                    break;
-                } catch (error) {
-                    continue;
-                }
-            }
+      // cerrar todo
+      document.querySelectorAll('.explorer .rule-accordion').forEach(r=>{
+        r.classList.remove('open');
+        r.setAttribute('aria-hidden','true');
+        const c = r.querySelector('.rule-accordion-content');
+        if(c) c.innerHTML = ''; // limpia (no se muestra hasta abrir)
+      });
+      document.querySelectorAll('.explorer .rule-row').forEach(r=>{
+        r.setAttribute('aria-expanded','false');
+      });
 
-            if (!audioLoaded) {
-                audioTitle.textContent = `❌ Audio no encontrado: ${verb}`;
-                setTimeout(() => audioPlayer.classList.remove('show'), 2000);
-            }
+      // abrir si estaba cerrado
+      if(!isOpen){
+        acc.classList.add('open');
+        acc.setAttribute('aria-hidden','false');
+        row.setAttribute('aria-expanded','true');
 
-            audioElement.onended = () => {
-                setTimeout(() => audioPlayer.classList.remove('show'), 500);
-            };
+        // inyectar template (explicación completa) debajo
+        const c = acc.querySelector('.rule-accordion-content');
+        if(c){
+          const tplId = c.getAttribute('data-tpl');
+          const tpl = document.getElementById(tplId);
+          if(tpl){
+            c.innerHTML = '';
+            c.appendChild(tpl.content.cloneNode(true));
+          }
         }
+      }
+    }
 
-        function setupEventListeners() {
-            document.getElementById('searchInput').addEventListener('input', (e) => {
-                const searchTerm = e.target.value.toLowerCase();
-                document.querySelectorAll('.verb-item').forEach(item => {
-                    item.style.display = item.textContent.toLowerCase().includes(searchTerm) ? 'block' : 'none';
-                });
-            });
+    // listeners
+    document.addEventListener('click', (e)=>{
+      const row = e.target.closest('.explorer .rule-row');
+      if(row){
+        explorerToggleRuleAccordion(row);
+      }
+    });
+    document.addEventListener('keydown', (e)=>{
+      const el = document.activeElement;
+      if(el && el.classList && el.classList.contains('rule-row') && (e.key === 'Enter' || e.key === ' ')){
+        e.preventDefault();
+        explorerToggleRuleAccordion(el);
+      }
+    });
 
-            document.querySelectorAll('.filter-btn').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
-                    currentFilter = btn.dataset.filter;
-                    renderVerbLists();
-                });
-            });
+
+
+    // =========================
+    // FIX: Acordeón de reglas (clic en fila) + contenido desde <template>
+    // =========================
+    function explorerAccordionCloseAll(){
+      document.querySelectorAll('.rule-accordion').forEach(r=>{
+        r.classList.remove('open');
+        r.setAttribute('aria-hidden','true');
+        const c = r.querySelector('.rule-accordion-content');
+        if(c) c.innerHTML = '';
+      });
+      document.querySelectorAll('.rule-row').forEach(r=>{
+        r.setAttribute('aria-expanded','false');
+      });
+    }
+
+    function explorerAccordionOpen(row){
+      const targetId = row.getAttribute('data-target');
+      if(!targetId) return;
+      const acc = document.getElementById(targetId);
+      if(!acc) return;
+
+      acc.classList.add('open');
+      acc.setAttribute('aria-hidden','false');
+      row.setAttribute('aria-expanded','true');
+
+      const c = acc.querySelector('.rule-accordion-content');
+      if(c){
+        const tplId = c.getAttribute('data-tpl');
+        const tpl = document.getElementById(tplId);
+        if(tpl){
+          c.innerHTML = '';
+          c.appendChild(tpl.content.cloneNode(true));
         }
+      }
+    }
 
-        function togglePracticeMode() {
-            practiceMode = !practiceMode;
-            document.getElementById('rulesSection').classList.toggle('hidden');
-            document.getElementById('verbListsSection').classList.toggle('hidden');
-            document.getElementById('practiceMode').classList.toggle('active');
-            document.getElementById('dragDropChallenge').classList.add('hidden'); 
-            if (practiceMode) startQuiz();
+    function explorerAccordionToggle(row){
+      const targetId = row.getAttribute('data-target');
+      const acc = targetId ? document.getElementById(targetId) : null;
+      const willOpen = !(acc && acc.classList.contains('open'));
+      explorerAccordionCloseAll();
+      if(willOpen) explorerAccordionOpen(row);
+    }
+
+    // Single delegated listener (works even if you click inside <td>)
+    document.addEventListener('click', (e)=>{
+      // Only when Explorer view is active
+      const explorerView = document.getElementById('view-explorer');
+      if(!explorerView || !explorerView.classList.contains('active')) return;
+
+      const row = e.target.closest('.rule-row');
+      if(row && row.closest('#explorer-rulesSection')){
+        explorerAccordionToggle(row);
+      }
+    });
+
+    document.addEventListener('keydown', (e)=>{
+      const explorerView = document.getElementById('view-explorer');
+      if(!explorerView || !explorerView.classList.contains('active')) return;
+
+      const el = document.activeElement;
+      if(el && el.classList && el.classList.contains('rule-row') && el.closest('#explorer-rulesSection') && (e.key === 'Enter' || e.key === ' ')){
+        e.preventDefault();
+        explorerAccordionToggle(el);
+      }
+    });
+
+
+
+    // Force adjective cards to be visible
+    document.addEventListener('DOMContentLoaded', ()=>{
+      const adj = document.getElementById('explorer-adjSection');
+      if(adj) adj.style.display = 'block';
+    });
+
+
+
+    // =========================
+    // ADJETIVOS -ed (C1) — 30 por regla
+    // =========================
+    const adjectiveData = {
+      id: [
+        { adj: 'talented', example: 'She is a remarkably talented negotiator.' },
+        { adj: 'gifted', example: 'He is gifted at strategic thinking.' },
+        { adj: 'learned', example: 'A learned analysis can still be contested.' },
+        { adj: 'crowded', example: 'The platform was dangerously crowded.' },
+        { adj: 'wounded', example: 'He gave a wounded reply, but stayed composed.' },
+        { adj: 'guarded', example: 'She offered a guarded response to the allegation.' },
+        { adj: 'targeted', example: 'They introduced targeted interventions to curb misuse.' },
+        { adj: 'motivated', example: 'A motivated learner thrives on constructive feedback.' },
+        { adj: 'complicated', example: 'It was a complicated ethical dilemma.' },
+        { adj: 'dedicated', example: 'She is dedicated to evidence-based practice.' },
+        { adj: 'sophisticated', example: 'A sophisticated argument demands nuance.' },
+        { adj: 'integrated', example: 'An integrated framework reduces blind spots.' },
+        { adj: 'disconnected', example: 'A disconnected narrative weakens credibility.' },
+        { adj: 'unwanted', example: 'The unwanted attention became intrusive.' },
+        { adj: 'overrated', example: 'The film is widely overrated, in my view.' },
+        { adj: 'underrated', example: 'Her contribution is seriously underrated.' },
+        { adj: 'open-ended', example: 'We asked open-ended questions to elicit detail.' },
+        { adj: 'big-headed', example: 'He grew big-headed after the award.' },
+        { adj: 'absent-minded', example: 'I can be absent-minded when under pressure.' },
+        { adj: 'single-minded', example: 'She is single-minded about excellence.' },
+        { adj: 'level-headed', example: 'A level-headed response defused the tension.' },
+        { adj: 'hard-headed', example: 'He is hard-headed, but not unreasonable.' },
+        { adj: 'thick-headed', example: 'Don’t be thick-headed about feedback.' },
+        { adj: 'kind-hearted', example: 'She is kind-hearted yet uncompromising on standards.' },
+        { adj: 'open-minded', example: 'Try to remain open-minded in contentious debates.' },
+        { adj: 'self-centered', example: 'Self-centered leadership erodes trust.' },
+        { adj: 'heavy-handed', example: 'A heavy-handed approach can backfire.' },
+        { adj: 'cold-blooded', example: 'It was a cold-blooded calculation, not a mistake.' },
+        { adj: 'short-sighted', example: 'That policy was painfully short-sighted.' },
+        { adj: 'long-winded', example: 'His long-winded answer was oddly persuasive.' }
+      ],
+      t: [
+        { adj: 'accomplished', example: 'An accomplished scholar, she publishes widely.' },
+        { adj: 'polished', example: 'He delivered a polished presentation.' },
+        { adj: 'detached', example: 'She sounded detached from the consequences.' },
+        { adj: 'perplexed', example: 'I was perplexed by the inconsistency.' },
+        { adj: 'convinced', example: 'I’m not convinced by that evidence.' },
+        { adj: 'advanced', example: 'It’s an advanced course in rhetoric.' },
+        { adj: 'enhanced', example: 'The platform offers enhanced security.' },
+        { adj: 'increased', example: 'We observed increased volatility in the market.' },
+        { adj: 'reduced', example: 'They proposed reduced emissions targets.' },
+        { adj: 'distressed', example: 'He sounded distressed on the phone.' },
+        { adj: 'stressed', example: 'I feel stressed before high-stakes exams.' },
+        { adj: 'overcooked', example: 'The steak was overcooked and chewy.' },
+        { adj: 'undercooked', example: 'The rice was undercooked and gritty.' },
+        { adj: 'half-baked', example: 'That’s a half-baked idea at best.' },
+        { adj: 'handpicked', example: 'A handpicked team handled the crisis.' },
+        { adj: 'time-pressed', example: 'I’m time-pressed this week, unfortunately.' },
+        { adj: 'tight-lipped', example: 'They remained tight-lipped about the inquiry.' },
+        { adj: 'overlooked', example: 'An overlooked detail can be decisive.' },
+        { adj: 'misplaced', example: 'That is misplaced confidence.' },
+        { adj: 'mixed', example: 'I have mixed feelings about the proposal.' },
+        { adj: 'fixed', example: 'A fixed mindset limits growth.' },
+        { adj: 'boxed', example: 'Boxed solutions rarely scale well.' },
+        { adj: 'stretched', example: 'A stretched budget forces trade-offs.' },
+        { adj: 'etched', example: 'The experience is etched into my memory.' },
+        { adj: 'scorched', example: 'The fields were scorched after the heatwave.' },
+        { adj: 'wretched', example: 'They lived in wretched conditions for years.' },
+        { adj: 'parched', example: 'My throat felt parched after the speech.' },
+        { adj: 'bewitched', example: 'He seemed bewitched by the spectacle.' },
+        { adj: 'biased', example: 'The coverage felt biased and incomplete.' },
+        { adj: 'underdeveloped', example: 'It’s an underdeveloped proposal that needs work.' }
+      ],
+      d: [
+        { adj: 'seasoned', example: 'A seasoned diplomat reads the room.' },
+        { adj: 'renowned', example: 'A renowned expert chaired the panel.' },
+        { adj: 'beloved', example: 'She is a beloved teacher in the community.' },
+        { adj: 'privileged', example: 'It’s a privileged perspective, not a universal one.' },
+        { adj: 'qualified', example: 'A qualified candidate will stand out.' },
+        { adj: 'insured', example: 'The property is fully insured.' },
+        { adj: 'required', example: 'This is a required reading list.' },
+        { adj: 'well-informed', example: 'A well-informed opinion matters.' },
+        { adj: 'well-reasoned', example: 'It was a well-reasoned critique.' },
+        { adj: 'ill-advised', example: 'It was an ill-advised remark.' },
+        { adj: 'misguided', example: 'That is a misguided conclusion.' },
+        { adj: 'unbiased', example: 'We need an unbiased assessment.' },
+        { adj: 'well-read', example: 'She is well-read and articulate.' },
+        { adj: 'world-weary', example: 'He sounded world-weary, not cynical.' },
+        { adj: 'hard-won', example: 'It was a hard-won victory.' },
+        { adj: 'two-sided', example: 'It’s a two-sided argument.' },
+        { adj: 'broad-minded', example: 'A broad-minded approach helps in negotiations.' },
+        { adj: 'open-hearted', example: 'An open-hearted apology helped.' },
+        { adj: 'soft-spoken', example: 'He is soft-spoken but firm.' },
+        { adj: 'two-faced', example: 'Two-faced behaviour destroys credibility.' },
+        { adj: 'tight-fisted', example: 'He can be rather tight-fisted at times.' },
+        { adj: 'warm-hearted', example: 'A warm-hearted welcome eased tensions.' },
+        { adj: 'thin-skinned', example: 'He is thin-skinned about criticism.' },
+        { adj: 'battered', example: 'A battered reputation is hard to rebuild.' },
+        { adj: 'embedded', example: 'An embedded assumption can skew analysis.' },
+        { adj: 'customized', example: 'A customized approach may yield better outcomes.' },
+        { adj: 'authorized', example: 'Only authorized personnel may access the records.' },
+        { adj: 'strategized', example: 'They adopted a strategized communication plan.' },
+        { adj: 'bargained', example: 'It was a bargained settlement, not a concession.' },
+        { adj: 'two-pronged', example: 'They proposed a two-pronged strategy.' }
+      ]
+    };
+
+    let explorerAdjFilter = 'all';
+
+    function explorerRenderAdjectives(){
+      const container = document.getElementById('explorer-adjContainer');
+      if(!container) return;
+      container.innerHTML = '';
+
+      const titles = {
+        id: '🔴 Adjetivos /ɪd/',
+        t: '🟡 Adjetivos /t/',
+        d: '🟢 Adjetivos /d/'
+      };
+
+      ['id','t','d'].forEach(cat => {
+        if(explorerAdjFilter !== 'all' && explorerAdjFilter !== cat) return;
+
+        const list = document.createElement('div');
+        list.className = `verb-list ${cat}-list`;
+        list.innerHTML = `<h3>${titles[cat]}</h3><div class="verb-grid" id="explorer-adj-grid-${cat}"></div>`;
+        container.appendChild(list);
+
+        const grid = document.getElementById(`explorer-adj-grid-${cat}`);
+        adjectiveData[cat].forEach(item => {
+          const card = document.createElement('div');
+          card.className = 'verb-item';
+          card.textContent = item.adj;
+
+          const exampleSpan = document.createElement('span');
+          exampleSpan.className = 'example-text';
+          exampleSpan.innerHTML = `<strong>Ejemplo:</strong><br>${item.example}`;
+          card.appendChild(exampleSpan);
+
+          grid.appendChild(card);
+        });
+      });
+
+      const q = (document.getElementById('explorer-adjSearch')?.value || '').toLowerCase();
+      if(q){
+        document.querySelectorAll('#explorer-adjContainer .verb-item').forEach(item=>{
+          item.style.display = item.textContent.toLowerCase().includes(q) ? 'block' : 'none';
+        });
+      }
+    }
+
+    function explorerInitAdjectives(){
+      const section = document.getElementById('explorer-adjSection');
+      if(!section) return;
+
+      const search = document.getElementById('explorer-adjSearch');
+      if(search){
+        search.addEventListener('input', (e)=>{
+          const q = e.target.value.toLowerCase();
+          document.querySelectorAll('#explorer-adjContainer .verb-item').forEach(item=>{
+            item.style.display = item.textContent.toLowerCase().includes(q) ? 'block' : 'none';
+          });
+        });
+      }
+
+      document.querySelectorAll('.filter-btn[data-scope="adj"]').forEach(btn=>{
+        btn.addEventListener('click', ()=>{
+          document.querySelectorAll('.filter-btn[data-scope="adj"]').forEach(b=>b.classList.remove('active'));
+          btn.classList.add('active');
+          explorerAdjFilter = btn.dataset.filter;
+          explorerRenderAdjectives();
+        });
+      });
+
+      explorerRenderAdjectives();
+    }
+
+
+window.onload = () => {
+      explorerInit();
+      explorerInitAdjectives();
+      // safeguard adjetivos
+
+      setTimeout(() => {
+        const c = document.getElementById('explorer-adjContainer');
+        if(c && c.children.length === 0 && typeof explorerRenderAdjectives === 'function'){
+          explorerRenderAdjectives();
         }
-
-        function startQuiz() {
-            document.getElementById('nextQuestionBtn').classList.remove('hidden');
-            nextQuestion();
-        }
-
-        function nextQuestion() {
-            document.querySelectorAll('.quiz-option').forEach(opt => {
-                opt.classList.remove('correct', 'incorrect');
-                opt.onclick = () => checkAnswer(opt.getAttribute('data-value'), opt); 
-            });
-            document.getElementById('dragDropChallenge').classList.add('hidden');
-            document.getElementById('quizVerb').style.display = 'block';
-            document.getElementById('quizOptions').style.display = 'grid';
-            document.getElementById('nextQuestionBtn').classList.add('hidden'); 
-
-            const categories = Object.keys(verbData);
-            const randomCategory = categories[Math.floor(Math.random() * categories.length)];
-            const verbs = verbData[randomCategory]; 
-            
-            const randomVerbObject = verbs[Math.floor(Math.random() * verbs.length)];
-            
-            currentQuizVerb = {
-                verb: randomVerbObject.verb,
-                category: randomCategory,
-                example: randomVerbObject.example
-            };
-
-            document.getElementById('quizVerb').textContent = currentQuizVerb.verb;
-
-            const optionsContainer = document.getElementById('quizOptions');
-            optionsContainer.innerHTML = '';
-
-            const options = [
-                { label: '🔴 /ɪd/ - Sílaba extra', value: 'id' },
-                { label: '🟡 /t/ - Sonido sordo', value: 't' },
-                { label: '🟢 /d/ - Sonido sonoro', value: 'd' }
-            ];
-
-            options.forEach(option => {
-                const optionDiv = document.createElement('div');
-                optionDiv.className = 'quiz-option';
-                optionDiv.textContent = option.label;
-                optionDiv.setAttribute('data-value', option.value); 
-                optionDiv.onclick = () => checkAnswer(option.value, optionDiv);
-                optionsContainer.appendChild(optionDiv);
-            });
-        }
-
-        function checkAnswer(selected, element) {
-            quizTotal++;
-            
-            document.querySelectorAll('.quiz-option').forEach(opt => opt.onclick = null);
-
-            if (selected === currentQuizVerb.category) {
-                element.classList.add('correct');
-                playAudio(currentQuizVerb.verb, currentQuizVerb.category);
-                setTimeout(() => startDragDropChallenge(), 1500); 
-
-            } else {
-                element.classList.add('incorrect');
-                document.querySelectorAll('.quiz-option').forEach(opt => {
-                    if (opt.getAttribute('data-value') === currentQuizVerb.category) {
-                        opt.classList.add('correct');
-                    }
-                });
-                updateQuizScore();
-                document.getElementById('nextQuestionBtn').classList.remove('hidden');
-                document.getElementById('nextQuestionBtn').textContent = "Continuar ➡️";
-                
-            }
-        }
-
-        // 🧩 FUNCIONES DRAG & DROP (MEJORADAS PARA MÓVIL)
-        
-        // 1. Función común que procesa la respuesta (sea por Drag o por Click)
-        function finalizeAnswer(soundValue, elementId) {
-            const dropZone = document.getElementById('dropZone');
-            const challengeFeedback = document.getElementById('challengeFeedback');
-            const element = document.getElementById(elementId);
-
-            // Si ya se ha respondido, no permitir más interacciones
-            if(dropZone.classList.contains('correct') || dropZone.classList.contains('incorrect')) return;
-
-            // Ocultar el elemento seleccionado/arrastrado
-            if(element) element.style.visibility = 'hidden';
-
-            dropZone.textContent = soundValue.toUpperCase(); 
-
-            if (soundValue === currentQuizVerb.category) {
-                quizCorrect++; 
-                updateQuizScore();
-                dropZone.classList.add('correct');
-                challengeFeedback.textContent = "¡Éxito! 🎉 El sonido coincide con la regla de la frase.";
-                
-                // Efecto visual extra para confirmar
-                dropZone.style.transform = "scale(1.1)";
-                setTimeout(() => dropZone.style.transform = "scale(1)", 200);
-            } else {
-                dropZone.classList.add('incorrect');
-                challengeFeedback.textContent = `❌ Incorrecto. El sonido correcto era: ${currentQuizVerb.category.toUpperCase()}`;
-            }
-
-            // Desactivar drop
-            dropZone.ondrop = null;
-            
-            document.getElementById('nextQuestionBtn').classList.remove('hidden');
-            document.getElementById('nextQuestionBtn').textContent = "Siguiente ➡️";
-        }
-
-        // 2. Manejador del Drag (Inicio)
-        function drag(ev) {
-            ev.dataTransfer.setData("text", ev.target.getAttribute('data-sound'));
-            ev.dataTransfer.setData("source-id", ev.target.id); 
-        }
-
-        function allowDrop(ev) {
-            ev.preventDefault();
-        }
-
-        // 3. Manejador del Drop (Soltar)
-        function drop(ev) {
-            ev.preventDefault();
-            const draggedSound = ev.dataTransfer.getData("text");
-            const draggedElementId = ev.dataTransfer.getData("source-id");
-            
-            finalizeAnswer(draggedSound, draggedElementId);
-        }
-
-        // 4. Nueva función para manejar el Clic directo
-        function handleClickOption(ev) {
-            const sound = ev.target.getAttribute('data-sound');
-            const id = ev.target.id;
-            finalizeAnswer(sound, id);
-        }
-
-        function resetDropZone() {
-            const dropZone = document.getElementById('dropZone');
-            dropZone.classList.remove('correct', 'incorrect');
-            // Texto actualizado para indicar que el clic también funciona
-            dropZone.textContent = "Arrastra o toca aquí"; 
-            dropZone.ondrop = drop; 
-            dropZone.style.transform = "scale(1)";
-            document.getElementById('challengeFeedback').textContent = "";
-        }
-
-        function startDragDropChallenge() {
-            document.getElementById('quizVerb').style.display = 'none';
-            document.getElementById('quizOptions').style.display = 'none';
-            
-            const challengeContainer = document.getElementById('dragDropChallenge');
-            challengeContainer.classList.remove('hidden');
-
-            resetDropZone(); 
-
-            // Obtener la frase de ejemplo
-            const regex = new RegExp(currentQuizVerb.verb, 'i');
-            let sentence = currentQuizVerb.example.replace(regex, " [ ... ] "); // Placeholder más corto
-            document.getElementById('sentenceDisplay').innerHTML = `Frase: *${sentence}*`;
-
-            // Crear las opciones
-            const dragOptions = document.getElementById('dragOptions');
-            dragOptions.innerHTML = '';
-            
-            const sounds = [
-                { label: '/ɪd/ (id)', value: 'id' },
-                { label: '/t/ (t)', value: 't' },
-                { label: '/d/ (d)', value: 'd' }
-            ];
-
-            sounds.sort(() => Math.random() - 0.5);
-
-            sounds.forEach((sound, index) => {
-                const option = document.createElement('div');
-                option.className = 'drag-option';
-                option.textContent = sound.label;
-                option.id = `drag-${index}`; 
-                
-                // Atributos para Drag (PC)
-                option.setAttribute('draggable', true);
-                option.setAttribute('data-sound', sound.value);
-                option.setAttribute('ondragstart', 'drag(event)');
-                
-                // ATRIBUTO PARA CLICK (MÓVIL Y PC) - Soluciona tu problema
-                option.onclick = handleClickOption;
-                
-                // Cursor pointer para indicar que es clicable
-                option.style.cursor = 'pointer'; 
-                option.style.visibility = 'visible'; 
-                
-                dragOptions.appendChild(option);
-            });
-        }
-        // FIN FUNCIONES DRAG & DROP
-
-        function updateStats() {
-            document.getElementById('totalVerbs').textContent = Object.values(verbData).reduce((sum, arr) => sum + arr.length, 0);
-            document.getElementById('practicedVerbs').textContent = practicedVerbs.size;
-            document.getElementById('quizScore').textContent = `${quizCorrect}/${quizTotal}`;
-        }
-
-        function updateQuizScore() {
-            document.getElementById('currentScore').textContent = `Puntuación: ${quizCorrect}/${quizTotal} (${quizTotal > 0 ? Math.round(quizCorrect/quizTotal*100) : 0}%)`;
-            updateStats();
-        }
-
-        window.onload = init;
-    </script>
-
+      }, 100);
+// misión no inicia el juego hasta que cambies a "Jugar", igual que tu original
+    };
+  </script>
 </body>
 </html>

@@ -119,6 +119,28 @@
       opacity: 0.9;
     }
 
+    .explorer .youtube-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 15px 30px;
+      background: #ff0000;
+      color: white;
+      text-decoration: none;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 1.2em;
+      transition: all 0.3s;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+      border: 3px solid white;
+    }
+
+    .explorer .youtube-link:hover {
+      background: #cc0000;
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+    }
+
     .explorer .stats-bar {
       display: flex;
       justify-content: space-around;
@@ -263,36 +285,68 @@
 
     .explorer .verb-lists-section { padding: 40px; }
 
-    .explorer .verb-list-container {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-      gap: 30px;
-    }
-
+    /* ===== ACORDEÓN PARA LISTAS DE VERBOS ===== */
     .explorer .verb-list {
       background: white;
       border-radius: 15px;
-      padding: 25px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      transition: transform 0.3s, box-shadow 0.3s;
-    }
-
-    .explorer .verb-list:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
-    }
-
-    .explorer .verb-list h3 {
-      color: #667eea;
       margin-bottom: 20px;
-      font-size: 1.5em;
-      padding-bottom: 10px;
-      border-bottom: 3px solid #667eea;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      overflow: hidden;
+      transition: all 0.3s;
     }
 
-    .explorer .verb-list.id-list h3 { color: #dc3545; border-bottom-color: #dc3545; }
-    .explorer .verb-list.t-list h3 { color: #ffc107; border-bottom-color: #ffc107; }
-    .explorer .verb-list.d-list h3 { color: #28a745; border-bottom-color: #28a745; }
+    .explorer .verb-list-header {
+      padding: 20px 25px;
+      cursor: pointer;
+      user-select: none;
+      position: relative;
+      transition: background 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .explorer .verb-list-header:hover {
+      background: #f8f9fa;
+    }
+
+    .explorer .verb-list-header h3 {
+      margin: 0;
+      font-size: 1.5em;
+      font-weight: 700;
+    }
+
+    /* Flecha del acordeón de verbos */
+    .explorer .verb-list-header::after {
+      content: '▶';
+      font-size: 1.5em;
+      font-weight: bold;
+      color: #6b7bf5;
+      transition: transform 0.3s ease;
+    }
+
+    .explorer .verb-list.expanded .verb-list-header::after {
+      transform: rotate(90deg);
+    }
+
+    /* Contenido colapsable */
+    .explorer .verb-list-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease-out, padding 0.4s ease-out;
+      padding: 0 25px;
+    }
+
+    .explorer .verb-list.expanded .verb-list-content {
+      max-height: 10000px;
+      padding: 0 25px 25px 25px;
+    }
+
+    /* Colores específicos para cada categoría */
+    .explorer .verb-list.id-list .verb-list-header h3 { color: #dc3545; }
+    .explorer .verb-list.t-list .verb-list-header h3 { color: #ffc107; }
+    .explorer .verb-list.d-list .verb-list-header h3 { color: #28a745; }
+
 
     .explorer .verb-grid {
       display: grid;
@@ -610,31 +664,97 @@
     }
     .mission .nav-item.active{ color:#ffa502; }
   
-    .explorer .rule-row{
+    /* ===== ACORDEÓN DE REGLAS: SIEMPRE COLAPSADO POR DEFECTO ===== */
+    .explorer .rule-accordion { 
+      display: none !important; 
+    }
+    .explorer .rule-accordion.open { 
+      display: table-row !important; 
+    }
+    
+    .explorer .rule-row {
       cursor: pointer;
       transition: transform .15s, background .15s;
+      position: relative;
+      user-select: none;
     }
-    .explorer .rule-row:hover{
-      background: #eef2ff;
-      transform: translateX(4px);
+    .explorer .rule-row td {
+      padding-right: 50px !important;
     }
-    .explorer .rule-row:focus{
+    .explorer .rule-row:hover {
+      background: #e8eeff !important;
+      transform: translateX(2px);
+    }
+    .explorer .rule-row:focus {
       outline: 3px solid rgba(102,126,234,0.35);
       outline-offset: 2px;
     }
 
-  
-    .explorer .rule-accordion { display: none; }
-    .explorer .rule-accordion.open { display: table-row; }
+    /* Flecha triangular grande y visible */
+    .explorer .rule-row::after {
+      content: '▶';
+      position: absolute;
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 1.8em;
+      font-weight: bold;
+      color: #6b7bf5;
+      transition: transform 0.3s ease;
+    }
+    .explorer .rule-row[aria-expanded="true"]::after {
+      transform: translateY(-50%) rotate(90deg);
+      color: #5563e8;
+    }
+
     .explorer .rule-accordion-inner{
-      background: #f8f9fa;
-      border: 2px solid #e9ecef;
+      background: #f0f2f7;
+      border: 2px solid #e0e4f0;
       border-radius: 12px;
-      padding: 16px 18px;
+      padding: 20px 24px;
+      margin: 8px 0;
+      animation: slideDown 0.3s ease;
+    }
+    
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
     .explorer .rule-accordion-inner h4{
-      margin: 0 0 10px 0;
+      margin: 0 0 12px 0;
       color: #667eea;
+      font-size: 1.2em;
+    }
+    .explorer .rule-accordion-inner p{
+      margin: 8px 0;
+      line-height: 1.6;
+      color: #2c3e50;
+    }
+    .explorer .rule-accordion-inner ul{
+      margin: 10px 0 10px 20px;
+      padding: 0;
+    }
+    .explorer .rule-accordion-inner li{
+      margin: 6px 0;
+      line-height: 1.5;
+      color: #2c3e50;
+    }
+    .explorer .rule-accordion-inner code{
+      background: #e8ecf7;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      color: #d63384;
+      font-size: 0.95em;
+    }
+    .explorer .rule-accordion-inner b, .explorer .rule-accordion-inner strong{
+      color: #1a1a1a;
     }
     .explorer .sound-chip{
       display: inline-block;
@@ -650,14 +770,289 @@
     }
 
   
-    /* FIX: asegurar acordeón oculto por defecto */
-    .explorer table .rule-accordion{ display: none !important; }
-    .explorer table .rule-accordion.open{ display: table-row !important; }
-
-  
     /* Adjetivos: reutilizan el mismo estilo que los verbos */
     #explorer-adjSection .verb-item{
       cursor: default;
+    }
+
+    /* =========================
+       VIEW: ERRORES
+       ========================= */
+    .errors {
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      color: #333;
+      padding: 20px;
+      min-height: calc(100vh - 62px);
+    }
+
+    .errors .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      overflow: hidden;
+    }
+
+    .errors .header {
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      color: white;
+      padding: 40px;
+      text-align: center;
+    }
+
+    .errors .header h1 {
+      font-size: 2.5em;
+      margin-bottom: 10px;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+    }
+
+    .errors .stats-bar {
+      display: flex;
+      justify-content: space-around;
+      padding: 20px;
+      background: #f8f9fa;
+      border-bottom: 2px solid #e9ecef;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .errors .stat-item {
+      text-align: center;
+      padding: 20px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+      min-width: 140px;
+      flex: 1;
+      transition: transform 0.3s;
+    }
+
+    .errors .stat-item:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+    }
+
+    .errors .stat-number {
+      font-size: 2.5em;
+      font-weight: bold;
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 8px;
+    }
+
+    .errors .stat-label {
+      font-size: 0.9em;
+      color: #6c757d;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .errors .content {
+      padding: 40px;
+      background: white;
+    }
+
+    .errors-list {
+      display: grid;
+      gap: 20px;
+    }
+
+    .error-card {
+      background: #fff;
+      border-left: 6px solid #dc3545;
+      border-radius: 12px;
+      padding: 20px 25px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      transition: all 0.3s;
+      position: relative;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .error-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    }
+
+    .error-card.id-error { border-left-color: #dc3545; }
+    .error-card.t-error { border-left-color: #ffc107; }
+    .error-card.d-error { border-left-color: #28a745; }
+
+    .error-card-word {
+      font-size: 1.5em;
+      font-weight: 700;
+      color: #2c3e50;
+    }
+
+    .error-card-answer {
+      font-size: 1.1em;
+      font-weight: 600;
+      color: #667eea;
+    }
+
+    /* ===== RESPONSIVE MÓVIL ===== */
+    @media (max-width: 600px) {
+      .app-topbar {
+        flex-direction: column;
+        padding: 12px;
+        gap: 10px;
+      }
+      .app-title {
+        text-align: center;
+      }
+      .app-tabs {
+        width: 100%;
+        justify-content: center;
+      }
+      .app-tab {
+        flex: 1;
+        font-size: 0.85rem;
+        padding: 10px 8px;
+      }
+      
+      .explorer {
+        padding: 10px;
+      }
+      .explorer .header {
+        padding: 20px 15px;
+      }
+      .explorer .header h1 {
+        font-size: 1.6em;
+      }
+      .explorer .youtube-link {
+        font-size: 1em;
+        padding: 12px 20px;
+      }
+      .explorer .stats-bar {
+        padding: 12px;
+        gap: 8px;
+      }
+      .explorer .stat-item {
+        min-width: 80px;
+        padding: 10px;
+      }
+      .explorer .controls {
+        padding: 15px;
+      }
+      .explorer .search-box {
+        min-width: 100%;
+      }
+      .explorer .filter-buttons {
+        width: 100%;
+        gap: 8px;
+      }
+      .explorer .filter-btn {
+        flex: 1;
+        padding: 10px 8px;
+        font-size: 0.85em;
+      }
+      .explorer .mode-toggle {
+        width: 100%;
+        padding: 12px;
+      }
+      .explorer .content {
+        padding: 15px;
+      }
+      .explorer .verb-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+      .explorer .rules-section {
+        padding: 15px;
+      }
+      .explorer .summary-table {
+        font-size: 0.8em;
+      }
+      .explorer .summary-table th,
+      .explorer .summary-table td {
+        padding: 8px 6px;
+      }
+      .explorer .rule-row td {
+        padding-right: 45px !important;
+      }
+      .explorer .rule-row::after {
+        right: 10px;
+        font-size: 1.3em;
+      }
+      
+      /* Acordeones de verbos en móvil */
+      .explorer .verb-list-header {
+        padding: 15px 18px;
+      }
+      .explorer .verb-list-header h3 {
+        font-size: 1.2em;
+      }
+      .explorer .verb-list-header::after {
+        font-size: 1.2em;
+      }
+      .explorer .verb-list.expanded .verb-list-content {
+        padding: 0 18px 18px 18px;
+      }
+      .explorer .verb-lists-section {
+        padding: 20px 15px;
+      }
+      
+      .mission {
+        padding: 10px;
+      }
+      .mission .game-header {
+        padding: 20px 15px;
+      }
+      .mission .game-area {
+        padding: 20px 15px;
+      }
+      .mission .question-screen .word-display {
+        font-size: 2em;
+        padding: 20px 15px;
+      }
+      .mission .answer-btn {
+        padding: 15px 20px;
+        font-size: 1em;
+      }
+      
+      /* Errores en móvil */
+      .errors {
+        padding: 10px;
+      }
+      .errors .header {
+        padding: 25px 15px;
+      }
+      .errors .header h1 {
+        font-size: 1.8em;
+      }
+      .errors .content {
+        padding: 20px 15px;
+      }
+      .errors .stats-bar {
+        padding: 15px 10px;
+      }
+      .errors .stat-item {
+        min-width: 100px;
+        padding: 15px 10px;
+      }
+      .errors .stat-number {
+        font-size: 2em;
+      }
+      .errors .stat-label {
+        font-size: 0.75em;
+      }
+      .error-card {
+        padding: 15px 18px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+      .error-card-word {
+        font-size: 1.3em;
+      }
+      .error-card-answer {
+        font-size: 1em;
+      }
     }
 
   </style>
@@ -673,6 +1068,7 @@
     <div class="app-tabs">
       <button class="app-tab active" id="tab-explorer" onclick="appShow('explorer')">🧭 Explorador</button>
       <button class="app-tab" id="tab-mission" onclick="appShow('mission')">🎮 Misión</button>
+      <button class="app-tab" id="tab-errors" onclick="appShow('errors')">❌ Mis Errores</button>
     </div>
   </div>
 
@@ -682,6 +1078,17 @@
   <section class="app-view active explorer" id="view-explorer">
     <div class="container">
       <div class="header">
+        <!-- Enlace al video de YouTube -->
+        <div style="margin-bottom: 30px; padding: 10px;">
+          <a href="https://youtu.be/vv7cBMCBUdk?si=1IEpIsDtzZgJk0lP" 
+             target="_blank" 
+             rel="noopener noreferrer"
+             class="youtube-link">
+            <span style="font-size: 1.5em;">▶️</span>
+            <span>Ver Video Explicativo en YouTube</span>
+          </a>
+        </div>
+        
         <h1>🎯 Pronunciación del -ed en Inglés</h1>
         <p>Pasa el ratón sobre un verbo para ver el ejemplo y haz clic para escuchar</p>
       </div>
@@ -701,6 +1108,115 @@
         </div>
       </div>
 
+      <!-- ===== REGLAS PRIMERO ===== -->
+      <div class="rules-section" id="explorer-rulesSection">
+        <h2 style="display: flex; align-items: center; gap: 12px; margin-bottom: 20px;">
+          <span style="font-size: 1.3em;">📚</span> Reglas de Pronunciación
+        </h2>
+
+        <p style="color:#6c85a8; margin: 0 0 20px 0; font-weight: 500; display: flex; align-items: center; gap: 8px;">
+          <span style="font-size: 1.1em;">⬇️</span> Haz clic en cualquier regla para ver su explicación completa
+        </p>
+
+        <table class="summary-table">
+          <thead>
+            <tr>
+              <th>Sonido</th>
+              <th>Regla</th>
+              <th>Ejemplo</th>
+              <th>Característica</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- /ɪd/ -->
+            <tr class="rule-row" data-target="acc-id" tabindex="0" role="button" aria-expanded="false">
+              <td><strong>/ɪd/</strong></td>
+              <td>Termina en <strong>/t/</strong> o <strong>/d/</strong></td>
+              <td>wait → wait<strong>ed</strong></td>
+              <td>🔴 Sílaba EXTRA</td>
+            </tr>
+            <tr class="rule-accordion" id="acc-id" aria-hidden="true">
+              <td colspan="4">
+                <div class="rule-accordion-inner">
+                  <div class="rule-accordion-content" data-tpl="tpl-rule-id"></div>
+                </div>
+              </td>
+            </tr>
+
+            <!-- /t/ -->
+            <tr class="rule-row" data-target="acc-t" tabindex="0" role="button" aria-expanded="false">
+              <td><strong>/t/</strong></td>
+              <td>Termina en sonido <strong>sordo</strong></td>
+              <td>look → look<strong>ed</strong></td>
+              <td>🟡 Sordo + Sordo</td>
+            </tr>
+            <tr class="rule-accordion" id="acc-t" aria-hidden="true">
+              <td colspan="4">
+                <div class="rule-accordion-inner">
+                  <div class="rule-accordion-content" data-tpl="tpl-rule-t"></div>
+                </div>
+              </td>
+            </tr>
+
+            <!-- /d/ -->
+            <tr class="rule-row" data-target="acc-d" tabindex="0" role="button" aria-expanded="false">
+              <td><strong>/d/</strong></td>
+              <td>Termina en sonido <strong>sonoro</strong> o vocal</td>
+              <td>clean → clean<strong>ed</strong></td>
+              <td>🟢 Sonoro + Sonoro</td>
+            </tr>
+            <tr class="rule-accordion" id="acc-d" aria-hidden="true">
+              <td colspan="4">
+                <div class="rule-accordion-inner">
+                  <div class="rule-accordion-content" data-tpl="tpl-rule-d"></div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- Templates de explicación completa (NO visibles por defecto) -->
+        <template id="tpl-rule-id">
+          <h4>🔴 /ɪd/ → sílaba extra</h4>
+          <p><b>Regla:</b> Termina en sonido <b>/t/</b> o <b>/d/</b>, por eso se añade una sílaba extra.</p>
+          <p><b>Ejemplo:</b> <code>wanted</code> · <b>IPA:</b> <code>/ˈwɒn.tɪd/</code> · <b>Suena:</b> <span class="sound-chip">WON–tid</span></p>
+          <p style="margin: 10px 0 6px 0;"><b>Sensación auditiva:</b></p>
+          <ul>
+            <li>Dos golpes claros</li>
+            <li>Se oye una vocal corta <code>/ɪ/</code> antes de la <b>d</b></li>
+            <li>Parece casi una palabra nueva</li>
+          </ul>
+          <p><b>Audio ideal diría:</b> "wanted" → <b>won-tid</b></p>
+        </template>
+
+        <template id="tpl-rule-t">
+          <h4>🟡 /t/ → sonido sordo</h4>
+          <p><b>Regla:</b> Termina en sonido <b>sordo</b> (p, k, f, s, sh, ch, x…), así que el -ed se pronuncia <b>/t/</b>.</p>
+          <p><b>Ejemplo:</b> <code>worked</code> · <b>IPA:</b> <code>/wɜːkt/</code> · <b>Suena:</b> <span class="sound-chip">WORKT</span></p>
+          <p style="margin: 10px 0 6px 0;"><b>Sensación auditiva:</b></p>
+          <ul>
+            <li>No hay vocal extra</li>
+            <li>Final seco, cortado</li>
+            <li>La <b>t</b> se "pega" al verbo</li>
+          </ul>
+          <p><b>Audio ideal diría:</b> "worked" → <b>workt</b></p>
+        </template>
+
+        <template id="tpl-rule-d">
+          <h4>🟢 /d/ → sonido sonoro</h4>
+          <p><b>Regla:</b> Termina en sonido <b>sonoro</b> (vocal, l, n, r, b, g, v, z, m…), así que el -ed se pronuncia <b>/d/</b>.</p>
+          <p><b>Ejemplo:</b> <code>played</code> · <b>IPA:</b> <code>/pleɪd/</code> · <b>Suena:</b> <span class="sound-chip">PLEID</span></p>
+          <p style="margin: 10px 0 6px 0;"><b>Sensación auditiva:</b></p>
+          <ul>
+            <li>Una sola sílaba</li>
+            <li>La <b>d</b> final es suave</li>
+            <li>La voz sigue vibrando</li>
+          </ul>
+          <p><b>Audio ideal diría:</b> "played" → <b>pleid</b></p>
+        </template>
+      </div>
+
+      <!-- ===== AHORA SÍ LOS CONTROLES Y VERBOS ===== -->
       <div class="controls">
         <div class="search-box">
           <input type="text" id="explorer-searchInput" placeholder="🔍 Buscar verbo...">
@@ -719,8 +1235,8 @@
       <div class="rules-section" id="explorer-rulesSection">
         <h2>📚 Reglas de Pronunciación</h2>
 
-        <p style="color:#6c757d; margin: 0 0 18px 0;">
-          Pulsa una regla para ver su explicación (acordeón).
+        <p style="color:#6c757d; margin: 0 0 18px 0; font-weight: 500;">
+          ⬇️ Haz clic en cualquier regla para ver su explicación completa
         </p>
 
         <table class="summary-table">
@@ -977,6 +1493,57 @@
     </div>
   </section>
 
+  <!-- =========================
+       VIEW 3: MIS ERRORES
+       ========================= -->
+  <section class="app-view errors" id="view-errors">
+    <div class="container">
+      <div class="header">
+        <h1>❌ Mis Errores</h1>
+        <p>Aprende de tus errores para mejorar tu pronunciación</p>
+      </div>
+
+      <div class="stats-bar">
+        <div class="stat-item">
+          <div class="stat-number" id="errors-total">0</div>
+          <div class="stat-label">Palabras Diferentes</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number" id="errors-id">0</div>
+          <div class="stat-label">En /ɪd/</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number" id="errors-t">0</div>
+          <div class="stat-label">En /t/</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number" id="errors-d">0</div>
+          <div class="stat-label">En /d/</div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div id="errors-empty" style="text-align: center; padding: 60px 20px; color: #6c757d;">
+          <div style="font-size: 4em; margin-bottom: 20px;">🎯</div>
+          <h2 style="color: #667eea; margin-bottom: 10px;">¡Sin errores todavía!</h2>
+          <p style="font-size: 1.1em;">Juega en la sección "Misión" para empezar a practicar.</p>
+          <p style="margin-top: 20px;">Los errores que cometas aparecerán aquí para que puedas repasarlos.</p>
+        </div>
+
+        <div id="errors-container" style="display: none;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; flex-wrap: wrap; gap: 15px;">
+            <h2 style="margin: 0; color: #2c3e50; font-size: 1.8em;">Palabras para Repasar</h2>
+            <button onclick="errorsClearAll()" style="padding: 12px 24px; background: #dc3545; color: white; border: none; border-radius: 10px; cursor: pointer; font-weight: 600; transition: all 0.3s;">
+              🗑️ Limpiar
+            </button>
+          </div>
+
+          <div class="errors-list" id="errors-list"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <script>
     /* =========================
        DATA ÚNICO (fusionado)
@@ -1158,15 +1725,24 @@
     function appShow(which){
       const explorer = document.getElementById('view-explorer');
       const mission = document.getElementById('view-mission');
+      const errors = document.getElementById('view-errors');
+      
       document.getElementById('tab-explorer').classList.remove('active');
       document.getElementById('tab-mission').classList.remove('active');
+      document.getElementById('tab-errors').classList.remove('active');
+
+      explorer.classList.remove('active');
+      mission.classList.remove('active');
+      errors.classList.remove('active');
 
       if(which === 'mission'){
-        explorer.classList.remove('active');
         mission.classList.add('active');
         document.getElementById('tab-mission').classList.add('active');
+      } else if(which === 'errors'){
+        errors.classList.add('active');
+        document.getElementById('tab-errors').classList.add('active');
+        errorsRender();
       } else {
-        mission.classList.remove('active');
         explorer.classList.add('active');
         document.getElementById('tab-explorer').classList.add('active');
       }
@@ -1236,10 +1812,29 @@
 
         const verbList = document.createElement('div');
         verbList.className = `verb-list ${category}-list`;
-        verbList.innerHTML = `<h3>${titles[category]}</h3><div class="verb-grid" id="explorer-grid-${category}"></div>`;
+        
+        // Crear header del acordeón
+        const header = document.createElement('div');
+        header.className = 'verb-list-header';
+        header.innerHTML = `<h3>${titles[category]}</h3>`;
+        
+        // Crear contenido colapsable
+        const content = document.createElement('div');
+        content.className = 'verb-list-content';
+        
+        const grid = document.createElement('div');
+        grid.className = 'verb-grid';
+        grid.id = `explorer-grid-${category}`;
+        
+        content.appendChild(grid);
+        verbList.appendChild(header);
+        verbList.appendChild(content);
         container.appendChild(verbList);
 
-        const grid = document.getElementById(`explorer-grid-${category}`);
+        // Agregar funcionalidad de acordeón
+        header.addEventListener('click', () => {
+          verbList.classList.toggle('expanded');
+        });
 
         verbDataFull[category].forEach(item => {
           const verbItem = document.createElement('div');
@@ -1557,6 +2152,9 @@ document.getElementById('explorer-practiceMode').classList.toggle('active');
         feedback.textContent = "❌";
         missionTriggerAnimation();
         document.getElementById('mission-verb-box').style.color = "#ff4757";
+        
+        // Guardar el error
+        errorsAdd(missionCurrentVerb, missionCurrentCat, userChoice);
       }
 
       document.getElementById('mission-score').textContent = missionScore;
@@ -1808,6 +2406,19 @@ document.getElementById('explorer-practiceMode').classList.toggle('active');
     document.addEventListener('DOMContentLoaded', ()=>{
       const adj = document.getElementById('explorer-adjSection');
       if(adj) adj.style.display = 'block';
+      
+      // FORZAR CIERRE DE TODOS LOS ACORDEONES AL CARGAR
+      setTimeout(() => {
+        const allAccordions = document.querySelectorAll('.explorer .rule-accordion');
+        allAccordions.forEach(acc => {
+          acc.classList.remove('open');
+          acc.style.display = 'none';
+        });
+        const allRows = document.querySelectorAll('.explorer .rule-row');
+        allRows.forEach(row => {
+          row.setAttribute('aria-expanded', 'false');
+        });
+      }, 100);
     });
 
 
@@ -1929,14 +2540,34 @@ document.getElementById('explorer-practiceMode').classList.toggle('active');
 
         const list = document.createElement('div');
         list.className = `verb-list ${cat}-list`;
-        list.innerHTML = `<h3>${titles[cat]}</h3><div class="verb-grid" id="explorer-adj-grid-${cat}"></div>`;
+        
+        // Crear header del acordeón
+        const header = document.createElement('div');
+        header.className = 'verb-list-header';
+        header.innerHTML = `<h3>${titles[cat]}</h3>`;
+        
+        // Crear contenido colapsable
+        const content = document.createElement('div');
+        content.className = 'verb-list-content';
+        
+        const grid = document.createElement('div');
+        grid.className = 'verb-grid';
+        grid.id = `explorer-adj-grid-${cat}`;
+        
+        content.appendChild(grid);
+        list.appendChild(header);
+        list.appendChild(content);
         container.appendChild(list);
 
-        const grid = document.getElementById(`explorer-adj-grid-${cat}`);
+        // Agregar funcionalidad de acordeón
+        header.addEventListener('click', () => {
+          list.classList.toggle('expanded');
+        });
+
         adjectiveData[cat].forEach(item => {
           const card = document.createElement('div');
           card.className = 'verb-item';
-                    card.textContent = (item.adj || item.word || '');
+          card.textContent = (item.adj || item.word || '');
 
           const exampleSpan = document.createElement('span');
           exampleSpan.className = 'example-text';
@@ -1995,6 +2626,121 @@ window.onload = () => {
       }, 100);
 // misión no inicia el juego hasta que cambies a "Jugar", igual que tu original
     };
+
+
+    /* =========================
+       GESTIÓN DE ERRORES
+       ========================= */
+    let errorsData = JSON.parse(localStorage.getItem('pronun_errors') || '{}');
+
+    function errorsAdd(verb, correctAnswer, wrongAnswer) {
+      if (!errorsData[verb]) {
+        errorsData[verb] = {
+          verb: verb,
+          correctAnswer: correctAnswer,
+          wrongAnswers: {},
+          count: 0,
+          lastError: new Date().toISOString()
+        };
+      }
+      
+      if (!errorsData[verb].wrongAnswers[wrongAnswer]) {
+        errorsData[verb].wrongAnswers[wrongAnswer] = 0;
+      }
+      
+      errorsData[verb].wrongAnswers[wrongAnswer]++;
+      errorsData[verb].count++;
+      errorsData[verb].lastError = new Date().toISOString();
+      
+      errorsSave();
+    }
+
+    function errorsSave() {
+      localStorage.setItem('pronun_errors', JSON.stringify(errorsData));
+    }
+
+    function errorsRender() {
+      const container = document.getElementById('errors-list');
+      const emptyState = document.getElementById('errors-empty');
+      const errorsContainer = document.getElementById('errors-container');
+      
+      const errorsList = Object.values(errorsData);
+      
+      if (errorsList.length === 0) {
+        emptyState.style.display = 'block';
+        errorsContainer.style.display = 'none';
+        errorsUpdateStats();
+        return;
+      }
+      
+      emptyState.style.display = 'none';
+      errorsContainer.style.display = 'block';
+      
+      // Ordenar alfabéticamente
+      errorsList.sort((a, b) => a.verb.localeCompare(b.verb));
+      
+      container.innerHTML = '';
+      
+      const labels = {
+        id: '/ɪd/ - Sílaba Extra',
+        t: '/t/ - Sonido Sordo',
+        d: '/d/ - Sonido Sonoro'
+      };
+      
+      const colors = {
+        id: 'id-error',
+        t: 't-error',
+        d: 'd-error'
+      };
+      
+      errorsList.forEach(error => {
+        const card = document.createElement('div');
+        card.className = `error-card ${colors[error.correctAnswer]}`;
+        
+        card.innerHTML = `
+          <div class="error-card-word">${error.verb}</div>
+          <div class="error-card-answer">${labels[error.correctAnswer]}</div>
+        `;
+        
+        container.appendChild(card);
+      });
+      
+      errorsUpdateStats();
+    }
+
+    function errorsUpdateStats() {
+      const errorsList = Object.values(errorsData);
+      const total = errorsList.length; // Contar palabras únicas
+      
+      const byCategory = {
+        id: 0,
+        t: 0,
+        d: 0
+      };
+      
+      errorsList.forEach(err => {
+        byCategory[err.correctAnswer] = (byCategory[err.correctAnswer] || 0) + 1; // +1 por palabra única
+      });
+      
+      document.getElementById('errors-total').textContent = total;
+      document.getElementById('errors-id').textContent = byCategory.id;
+      document.getElementById('errors-t').textContent = byCategory.t;
+      document.getElementById('errors-d').textContent = byCategory.d;
+    }
+
+    function errorsClearAll() {
+      if (confirm('¿Estás seguro de que quieres borrar todos tus errores? Esta acción no se puede deshacer.')) {
+        errorsData = {};
+        errorsSave();
+        errorsRender();
+      }
+    }
+
+    // Renderizar errores al cargar la página
+    document.addEventListener('DOMContentLoaded', () => {
+      errorsUpdateStats();
+    });
+
   </script>
 </body>
 </html>
